@@ -90,7 +90,7 @@ export default function Hero() {
             </span>
           </div>
 
-          <h1 className="mt-6 text-4xl sm:text-5xl lg:text-[56px] font-black leading-[1.02] tracking-[-0.03em] text-cyber-text">
+          <h1 className="mt-6 text-3xl sm:text-4xl lg:text-[44px] font-bold leading-[1.12] tracking-[-0.03em] text-cyber-text">
             <TextReveal
               as="span"
               text="Premium product engineering for modern web + AI"
@@ -135,7 +135,7 @@ export default function Hero() {
           {/* Metrics */}
           <div data-reveal className="mt-10 grid grid-cols-3 gap-3 sm:gap-4">
             <div className="rounded-2xl border border-white/10 bg-white/2 px-4 py-4">
-              <div className="text-2xl font-black tracking-[-0.02em] text-cyber-text">
+              <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
                 <Counter to={99} suffix="+" />
               </div>
               <div className="mt-1 font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
@@ -143,7 +143,7 @@ export default function Hero() {
               </div>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/2 px-4 py-4">
-              <div className="text-2xl font-black tracking-[-0.02em] text-cyber-text">
+              <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
                 <Counter to={120} suffix="ms" />
               </div>
               <div className="mt-1 font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
@@ -151,7 +151,7 @@ export default function Hero() {
               </div>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/2 px-4 py-4">
-              <div className="text-2xl font-black tracking-[-0.02em] text-cyber-text">
+              <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
                 <Counter to={0} />
               </div>
               <div className="mt-1 font-mono text-[10px] tracking-[0.32em] text-cyber-muted">

@@ -9,11 +9,10 @@ const globalWithMongoose = globalThis as typeof globalThis & {
   mongoose?: MongooseCache;
 };
 
-let cached = globalWithMongoose.mongoose;
-
-if (!cached) {
-  cached = globalWithMongoose.mongoose = { conn: null, promise: null };
+if (!globalWithMongoose.mongoose) {
+  globalWithMongoose.mongoose = { conn: null, promise: null };
 }
+const cached = globalWithMongoose.mongoose;
 
 export async function connectToDatabase() {
   const mongoUri = process.env.MONGODB_URI;

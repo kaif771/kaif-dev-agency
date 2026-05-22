@@ -1,28 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  /* Premium graphite theme (keeps existing token names to avoid churn) */
-  --color-cyber-bg: #07080a;
-  --color-cyber-card: #0b0d12;
-  --color-cyber-card-light: #0f131b;
-  --color-cyber-blue: #4c7dff;
-  --color-cyber-green: #42d392;
+  --color-cyber-bg: #f5f5f7;
+  --color-cyber-card: rgba(255, 255, 255, 0.85);
+  --color-cyber-card-light: #ffffff;
+  --color-cyber-blue: #0071e3;
+  --color-cyber-green: #1d7e3a; /* Darkened Apple green for rich legibility contrast */
+  --color-cyber-violet: #1d1d1f;
+  --color-cyber-text: #1d1d1f;
+  --color-cyber-muted: #2c2c2e; /* Much darker charcoal for superior contrast and readability */
+  
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-glow-blue: glow-blue 2s ease-in-out infinite alternate;
+  --animate-glow-green: glow-green 2s ease-in-out infinite alternate;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-grid-drift: grid-drift 20s linear infinite;
 
-  /* Deprecated accent (alias to keep older classes harmless) */
-  --color-cyber-violet: #4c7dff;
-
-  --color-cyber-text: #e9eef5;
-  --color-cyber-muted: #9aa4b2;
-
-  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-float: float 10s ease-in-out infinite;
-  --animate-grid-drift: grid-drift 28s linear infinite;
+  @keyframes glow-blue {
+    from {
+      box-shadow: 0 4px 10px rgba(0, 113, 227, 0.03), 0 0 1px rgba(0, 113, 227, 0.05);
+    }
+    to {
+      box-shadow: 0 10px 25px rgba(0, 113, 227, 0.08), 0 0 2px rgba(0, 113, 227, 0.1);
+    }
+  }
+  @keyframes glow-green {
+    from {
+      box-shadow: 0 4px 10px rgba(52, 199, 89, 0.03), 0 0 1px rgba(52, 199, 89, 0.05);
+    }
+    to {
+      box-shadow: 0 10px 25px rgba(52, 199, 89, 0.08), 0 0 2px rgba(52, 199, 89, 0.1);
+    }
+  }
   @keyframes float {
     0%, 100% {
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-10px);
+      transform: translateY(-8px);
     }
   }
   @keyframes grid-drift {
@@ -30,118 +46,201 @@
       background-position: 0 0;
     }
     100% {
-      background-position: 120px 120px;
+      background-position: 40px 40px;
     }
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
-  --background: var(--color-cyber-bg);
-  --foreground: var(--color-cyber-text);
-
-  /* RGB helpers for ambient lighting layers */
-  --accent-blue-rgb: 76 125 255;
-  --accent-green-rgb: 66 211 146;
-  --panel-rgb: 12 14 18;
-
-  --spot-x: 50%;
-  --spot-y: 20%;
-  --spot-opacity: 0;
+  --background: #f5f5f7;
+  --foreground: #1d1d1f;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "SFNSDisplay-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif, "Inter";
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::selection {
-  background: rgb(var(--accent-blue-rgb) / 0.25);
-  color: #ffffff;
+/* Force premium custom typography globally */
+h1, h2, h3, h4, h5, h6, p, span, a, button, label, input, textarea {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "SFNSDisplay-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif, "Inter";
+  letter-spacing: -0.015em;
 }
 
-/* Subtle scrollbar (avoid neon) */
+h1, h2, h3 {
+  letter-spacing: -0.02em !important;
+  font-weight: 700;
+  color: #1d1d1f;
+}
+
+p, span, li, a, label {
+  letter-spacing: -0.012em !important;
+  line-height: 1.6;
+}
+
+/* Sharp, readable developer code console typography */
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: -0.01em;
+}
+
+/* Premium macOS Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #07080a;
+  background: #f5f5f7;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(255 255 255 / 0.08);
-  border: 1px solid rgb(255 255 255 / 0.10);
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 2px solid #f5f5f7;
+  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(255 255 255 / 0.14);
+  background: rgba(0, 0, 0, 0.3);
 }
 
-/* Background layers used by GridBackground */
-.studio-grid {
-  background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
-  background-size: 140px 140px;
-  opacity: 0.28;
-  animation: var(--animate-grid-drift);
+/* Custom interactive grid overlay - Apple Light style */
+.cyber-grid {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-.studio-lights {
-  background:
-    radial-gradient(900px circle at 18% 18%, rgb(var(--accent-blue-rgb) / 0.16), transparent 56%),
-    radial-gradient(820px circle at 86% 28%, rgb(var(--accent-green-rgb) / 0.10), transparent 60%),
-    radial-gradient(1000px circle at 50% 100%, rgb(255 255 255 / 0.06), transparent 65%);
-  opacity: 0.9;
+/* Faint glow borders */
+.glow-border-blue {
+  border: 1px solid rgba(0, 113, 227, 0.08);
+  transition: all 0.3s ease;
+}
+.glow-border-blue:hover {
+  border-color: rgba(0, 113, 227, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 113, 227, 0.05);
 }
 
-.studio-spotlight {
-  pointer-events: none;
-  background: radial-gradient(
-    780px circle at var(--spot-x) var(--spot-y),
-    rgb(var(--accent-blue-rgb) / 0.10),
-    transparent 60%
-  );
-  opacity: var(--spot-opacity);
-  transition: opacity 400ms ease;
+.glow-border-green {
+  border: 1px solid rgba(52, 199, 89, 0.08);
+  transition: all 0.3s ease;
+}
+.glow-border-green:hover {
+  border-color: rgba(52, 199, 89, 0.3);
+  box-shadow: 0 4px 20px rgba(52, 199, 89, 0.05);
 }
 
-.studio-noise {
-  pointer-events: none;
-  background-image: url("/noise.svg");
-  background-repeat: repeat;
-  opacity: 0.12;
-  mix-blend-mode: overlay;
+.glow-border-violet {
+  border: 1px solid rgba(29, 29, 31, 0.08);
+  transition: all 0.3s ease;
+}
+.glow-border-violet:hover {
+  border-color: rgba(29, 29, 31, 0.2);
+  box-shadow: 0 4px 20px rgba(29, 29, 31, 0.05);
 }
 
 .glass-panel {
-  background: rgb(var(--panel-rgb) / 0.58);
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
-  border: 1px solid rgb(255 255 255 / 0.06);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.015), 0 1px 2px rgba(0, 0, 0, 0.01);
 }
 
-/* Badge utility (kept for existing markup) */
+/* Custom premium badge */
 .cyber-badge {
-  background: rgb(255 255 255 / 0.03);
-  border: 1px solid rgb(255 255 255 / 0.06);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   color: var(--color-cyber-muted);
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-/* Marquee (CSS-only; disabled by reduced motion) */
-@media (prefers-reduced-motion: no-preference) {
-  .marquee {
-    animation: marquee 22s linear infinite;
-    will-change: transform;
-  }
+/* -------------------------------------------------------------
+   APPLE OFFICIAL WEBSITE MICROMOTION & SPRING PHYSICS SYSTEM
+   ------------------------------------------------------------- */
+
+/* Custom spring transitions based on Apple's standard web easing */
+.apple-transition {
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+.apple-transition-fast {
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Press micro-animation */
+.apple-active:active {
+  transform: scale(0.97) !important;
+}
+
+/* Premium scale lift card interaction */
+.apple-card-hover {
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.apple-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+/* Ultra-polished spring input controls */
+.apple-input {
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.apple-input:focus {
+  border-color: rgba(0, 113, 227, 0.4) !important;
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.08) !important;
+  background-color: #ffffff !important;
+}
+
+/* Premium Apple link underlines */
+.apple-nav-link {
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.apple-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: #0071e3;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.apple-nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Primary Button Apple micro-motion */
+.apple-btn-primary {
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.apple-btn-primary:hover {
+  background-color: #0077ed;
+  box-shadow: 0 8px 24px rgba(0, 113, 227, 0.28);
+  transform: translateY(-1px);
+}
+.apple-btn-primary:active {
+  transform: translateY(1px) scale(0.97) !important;
+}
+
+/* Secondary Button Apple micro-motion */
+.apple-btn-secondary {
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.apple-btn-secondary:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
+}
+.apple-btn-secondary:active {
+  transform: translateY(1px) scale(0.97) !important;
 }

@@ -15,7 +15,7 @@ type RevealOptions = {
 };
 
 export function useRevealOnScroll(
-  scopeRef: React.RefObject<HTMLElement>,
+  scopeRef: React.RefObject<HTMLElement | null>,
   {
     selector = "[data-reveal]",
     y = 18,
