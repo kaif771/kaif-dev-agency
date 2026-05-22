@@ -147,7 +147,7 @@ export default function AiChatWidget() {
 
       {/* Expandable Chat Window */}
       {isOpen && (
-        <div className="flex flex-col w-[350px] sm:w-[380px] h-[520px] rounded-3xl glass-panel border border-black/8 overflow-hidden shadow-2xl">
+        <div className="flex flex-col w-[350px] sm:w-[380px] h-[520px] rounded-3xl glass-panel-heavy border border-black/8 overflow-hidden shadow-2xl">
           {/* Header */}
           <div className="flex items-center justify-between p-4 bg-black/[0.02] border-b border-black/8">
             <div className="flex items-center gap-2.5">
