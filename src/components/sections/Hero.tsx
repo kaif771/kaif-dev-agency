@@ -74,13 +74,13 @@ export default function Hero() {
     <section ref={scopeRef} id="top" className="pt-28 sm:pt-32">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Left: cinematic headline + CTA */}
-        <div className="lg:col-span-7 glass-panel rounded-3xl p-7 sm:p-10 border-white/8 relative overflow-hidden">
+        <div className="lg:col-span-7 glass-panel rounded-3xl p-7 sm:p-10 border-black/8 relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-24 left-1/2 h-56 w-[820px] -translate-x-1/2 rounded-full bg-cyber-blue/10 blur-3xl" />
             <div className="absolute -bottom-40 right-10 h-72 w-72 rounded-full bg-cyber-green/8 blur-3xl" />
           </div>
 
-          <div data-reveal className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-1.5">
+          <div data-reveal className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-black/[0.02] px-3 py-1.5">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-cyber-green opacity-25" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-cyber-green" />
@@ -113,7 +113,7 @@ export default function Hero() {
             <Magnetic className="inline-block">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 rounded-2xl bg-cyber-blue px-6 py-3.5 text-sm font-semibold text-black transition-transform duration-300 hover:brightness-105"
+                className="inline-flex items-center gap-2 rounded-2xl bg-cyber-blue px-6 py-3.5 text-sm font-semibold text-white transition-transform duration-300 hover:brightness-105"
               >
                 Start a project <ArrowRight className="h-4 w-4" />
               </a>
@@ -121,7 +121,7 @@ export default function Hero() {
 
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/2 px-6 py-3.5 text-sm font-semibold text-cyber-text transition-colors hover:bg-white/4"
+              className="inline-flex items-center gap-2 rounded-2xl border border-black/8 bg-white px-6 py-3.5 text-sm font-semibold text-cyber-text transition-colors hover:bg-black/[0.03]"
             >
               View case studies
             </a>
@@ -134,7 +134,7 @@ export default function Hero() {
 
           {/* Metrics */}
           <div data-reveal className="mt-10 grid grid-cols-3 gap-3 sm:gap-4">
-            <div className="rounded-2xl border border-white/10 bg-white/2 px-4 py-4">
+            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4">
               <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
                 <Counter to={99} suffix="+" />
               </div>
@@ -142,7 +142,7 @@ export default function Hero() {
                 LIGHTHOUSE
               </div>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/2 px-4 py-4">
+            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4">
               <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
                 <Counter to={120} suffix="ms" />
               </div>
@@ -150,7 +150,7 @@ export default function Hero() {
                 API P95
               </div>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/2 px-4 py-4">
+            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4">
               <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
                 <Counter to={0} />
               </div>
@@ -164,19 +164,19 @@ export default function Hero() {
         {/* Right: terminal panel + floating engineering UI */}
         <div
           ref={rightColRef}
-          className="lg:col-span-5 glass-panel rounded-3xl p-6 sm:p-7 border-white/8 relative overflow-hidden"
+          className="lg:col-span-5 glass-panel rounded-3xl p-6 sm:p-7 border-black/8 relative overflow-hidden"
         >
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute -top-10 -right-12 h-44 w-44 rounded-full bg-cyber-blue/10 blur-3xl" />
-            <div className="absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-white/6 blur-3xl" />
+            <div className="absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-black/[0.02] blur-3xl" />
           </div>
 
           <Tilt className="relative" maxRotate={5}>
-            <div data-hero-panel data-parallax className="rounded-2xl border border-white/10 bg-black/35 overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-white/8">
+            <div data-hero-panel data-parallax className="rounded-2xl border border-black/8 bg-black/[0.04] overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
                 <div className="flex items-center gap-2">
                   <span className="h-2.5 w-2.5 rounded-full bg-cyber-blue/70" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-black/20" />
                   <span className="h-2.5 w-2.5 rounded-full bg-cyber-green/70" />
                 </div>
                 <div className="font-mono text-[10px] tracking-[0.28em] text-cyber-muted">
@@ -199,12 +199,12 @@ export default function Hero() {
           </Tilt>
 
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <div data-hero-panel className="rounded-2xl border border-white/10 bg-white/2 p-4" data-parallax>
+            <div data-hero-panel className="rounded-2xl border border-black/8 bg-white/70 p-4" data-parallax>
               <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">STACK</div>
               <div className="mt-2 text-sm font-semibold text-cyber-text">Next.js · TS · DB</div>
               <div className="mt-1 text-xs text-cyber-muted">App Router, clean APIs, typed data.</div>
             </div>
-            <div data-hero-panel className="rounded-2xl border border-white/10 bg-white/2 p-4" data-parallax>
+            <div data-hero-panel className="rounded-2xl border border-black/8 bg-white/70 p-4" data-parallax>
               <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">MOTION</div>
               <div className="mt-2 text-sm font-semibold text-cyber-text">GSAP · Lenis</div>
               <div className="mt-1 text-xs text-cyber-muted">Scroll reveals with cleanup.</div>
@@ -214,7 +214,7 @@ export default function Hero() {
       </div>
 
       {/* Marquee */}
-      <div data-reveal className="mt-6 glass-panel rounded-2xl border-white/8 overflow-hidden">
+      <div data-reveal className="mt-6 glass-panel rounded-2xl border-black/8 overflow-hidden">
         <div className="flex whitespace-nowrap">
           <div className="marquee flex items-center gap-10 px-6 py-4">
             {[

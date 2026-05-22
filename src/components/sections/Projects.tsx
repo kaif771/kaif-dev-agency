@@ -42,13 +42,13 @@ function CaseStudyModal({
       />
 
       <motion.div
-        className="relative w-full max-w-3xl glass-panel rounded-3xl border border-white/10 overflow-hidden"
+        className="relative w-full max-w-3xl glass-panel rounded-3xl border border-black/8 overflow-hidden"
         initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         exit={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
         transition={{ duration: 0.32, ease: [0.2, 0.8, 0.2, 1] }}
       >
-        <div className="p-6 sm:p-7 border-b border-white/10 flex items-start justify-between gap-6">
+        <div className="p-6 sm:p-7 border-b border-black/8 flex items-start justify-between gap-6">
           <div>
             <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase">
               Under the hood
@@ -61,7 +61,7 @@ function CaseStudyModal({
 
           <button
             onClick={onClose}
-            className="rounded-xl border border-white/10 bg-white/2 px-3 py-2 text-xs font-mono tracking-[0.18em] text-cyber-muted hover:text-cyber-text hover:bg-white/4 transition-colors"
+            className="rounded-xl border border-black/8 bg-white px-3 py-2 text-xs font-mono tracking-[0.18em] text-cyber-muted hover:text-cyber-text hover:bg-black/[0.03] transition-colors"
           >
             CLOSE
           </button>
@@ -72,7 +72,7 @@ function CaseStudyModal({
             <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-blue uppercase">
               Challenge
             </div>
-            <p className="rounded-2xl border border-white/10 bg-white/2 p-4 text-sm leading-relaxed text-cyber-muted">
+            <p className="rounded-2xl border border-black/8 bg-white/70 p-4 text-sm leading-relaxed text-cyber-muted">
               {project.underTheHood.challenge}
             </p>
           </div>
@@ -81,7 +81,7 @@ function CaseStudyModal({
             <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-green uppercase">
               Solution
             </div>
-            <p className="rounded-2xl border border-white/10 bg-white/2 p-4 text-sm leading-relaxed text-cyber-muted">
+            <p className="rounded-2xl border border-black/8 bg-white/70 p-4 text-sm leading-relaxed text-cyber-muted">
               {project.underTheHood.solution}
             </p>
           </div>
@@ -94,7 +94,7 @@ function CaseStudyModal({
               {project.underTheHood.metrics.map((m) => (
                 <div
                   key={m}
-                  className="rounded-2xl border border-white/10 bg-white/2 p-4 text-sm text-cyber-text"
+                  className="rounded-2xl border border-black/8 bg-white/70 p-4 text-sm text-cyber-text font-bold"
                 >
                   {m}
                 </div>
@@ -103,24 +103,24 @@ function CaseStudyModal({
           </div>
         </div>
 
-        <div className="p-5 sm:p-6 border-t border-white/10 flex gap-3">
+        <div className="p-5 sm:p-6 border-t border-black/8 flex gap-3">
           {project.liveUrl ? (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-cyber-blue px-4 py-3 text-sm font-semibold text-black hover:brightness-105 transition"
+              className="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-cyber-blue px-4 py-3 text-sm font-semibold text-white hover:brightness-105 transition"
             >
               Live Preview <ExternalLink className="h-4 w-4" />
             </a>
           ) : (
-            <div className="flex-1 rounded-2xl border border-white/10 bg-white/2 px-4 py-3 text-sm text-center text-cyber-muted">
+            <div className="flex-1 rounded-2xl border border-black/8 bg-black/[0.02] px-4 py-3 text-sm text-center text-cyber-muted">
               Private environment
             </div>
           )}
           <button
             onClick={onClose}
-            className="rounded-2xl border border-white/10 bg-white/2 px-4 py-3 text-sm font-semibold text-cyber-text hover:bg-white/4 transition-colors"
+            className="rounded-2xl border border-black/8 bg-white px-4 py-3 text-sm font-semibold text-cyber-text hover:bg-black/[0.03] transition-colors"
           >
             Close
           </button>
@@ -172,10 +172,10 @@ export default function Projects() {
           <Tilt key={proj.id} className="h-full">
             <article
               data-reveal
-              className="glass-panel h-full rounded-3xl p-6 border-white/8 transition-colors duration-300 hover:bg-white/3"
+              className="glass-panel h-full rounded-3xl p-6 border-black/8 transition-colors duration-300 hover:bg-black/[0.01]"
             >
               <div className="flex items-center justify-between gap-3">
-                <span className="rounded-full border border-white/10 bg-white/2 px-3 py-1.5 font-mono text-[10px] tracking-[0.28em] text-cyber-muted uppercase">
+                <span className="rounded-full border border-black/8 bg-black/[0.02] px-3 py-1.5 font-mono text-[10px] tracking-[0.28em] text-cyber-muted uppercase">
                   {proj.category}
                 </span>
                 {proj.liveUrl ? (
@@ -183,7 +183,7 @@ export default function Projects() {
                     href={proj.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-xl border border-white/10 bg-white/2 p-2 text-cyber-text hover:bg-white/4 transition-colors"
+                    className="rounded-xl border border-black/8 bg-white p-2 text-cyber-text hover:bg-black/[0.03] transition-colors"
                     aria-label={`Open ${proj.title} live preview`}
                     title="Live preview"
                   >
@@ -214,7 +214,7 @@ export default function Projects() {
               <div className="mt-7">
                 <button
                   onClick={() => setActive(proj)}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/2 px-4 py-3 text-sm font-semibold text-cyber-text hover:bg-white/4 transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-black/8 bg-white px-4 py-3 text-sm font-semibold text-cyber-text hover:bg-black/[0.03] transition-colors"
                 >
                   <Terminal className="h-4 w-4 text-cyber-blue" />
                   Under the hood

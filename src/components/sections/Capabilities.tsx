@@ -64,7 +64,7 @@ export default function Capabilities() {
       </div>
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6">
-        <div data-reveal className="md:col-span-7 glass-panel rounded-3xl p-7 border-white/8">
+        <div data-reveal className="md:col-span-7 glass-panel rounded-3xl p-7 border-black/8">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
@@ -78,7 +78,7 @@ export default function Capabilities() {
                 The repo you get is the repo you can grow.
               </p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/3 p-3 text-cyber-blue">
+            <div className="rounded-2xl border border-black/8 bg-black/[0.02] p-3 text-cyber-blue">
               <Cpu className="h-5 w-5" />
             </div>
           </div>
@@ -92,7 +92,7 @@ export default function Capabilities() {
             ].map((t) => (
               <div
                 key={t}
-                className="rounded-2xl border border-white/10 bg-white/2 px-4 py-3 text-sm text-cyber-muted"
+                className="rounded-2xl border border-black/8 bg-white/70 px-4 py-3 text-sm text-cyber-muted"
               >
                 {t}
               </div>
@@ -100,7 +100,7 @@ export default function Capabilities() {
           </div>
         </div>
 
-        <div data-reveal className="md:col-span-5 glass-panel rounded-3xl p-7 border-white/8">
+        <div data-reveal className="md:col-span-5 glass-panel rounded-3xl p-7 border-black/8">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
@@ -114,12 +114,12 @@ export default function Capabilities() {
                 serverless orchestration.
               </p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/3 p-3 text-cyber-green">
+            <div className="rounded-2xl border border-black/8 bg-black/[0.02] p-3 text-cyber-green">
               <Bot className="h-5 w-5" />
             </div>
           </div>
 
-          <div className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4 font-mono text-[12px] text-cyber-muted">
+          <div className="mt-6 rounded-2xl border border-black/8 bg-black/[0.04] p-4 font-mono text-[12px] text-cyber-muted">
             <div className="text-cyber-text">pipeline.rag(query)</div>
             <div className="mt-2">→ retrieve · rerank · cite</div>
             <div>→ tool-call · guard</div>
@@ -127,7 +127,7 @@ export default function Capabilities() {
           </div>
         </div>
 
-        <div data-reveal className="md:col-span-5 glass-panel rounded-3xl p-7 border-white/8">
+        <div data-reveal className="md:col-span-5 glass-panel rounded-3xl p-7 border-black/8">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
@@ -140,7 +140,7 @@ export default function Capabilities() {
                 Bundle discipline, predictable hydration, and motion that respects the main thread.
               </p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/3 p-3 text-cyber-blue">
+            <div className="rounded-2xl border border-black/8 bg-black/[0.02] p-3 text-cyber-blue">
               <Gauge className="h-5 w-5" />
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function Capabilities() {
             ].map((m) => (
               <div
                 key={m.k}
-                className="rounded-2xl border border-white/10 bg-white/2 px-4 py-3"
+                className="rounded-2xl border border-black/8 bg-white/70 px-4 py-3"
               >
                 <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
                   {m.k}
@@ -165,7 +165,7 @@ export default function Capabilities() {
           </div>
         </div>
 
-        <div data-reveal className="md:col-span-7 glass-panel rounded-3xl p-7 border-white/8">
+        <div data-reveal className="md:col-span-7 glass-panel rounded-3xl p-7 border-black/8">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
@@ -178,7 +178,7 @@ export default function Capabilities() {
                 MongoDB models designed around query shape. Index strategy is part of the product.
               </p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/3 p-3 text-cyber-green">
+            <div className="rounded-2xl border border-black/8 bg-black/[0.02] p-3 text-cyber-green">
               <Database className="h-5 w-5" />
             </div>
           </div>
@@ -191,7 +191,7 @@ export default function Capabilities() {
             ].map((t) => (
               <div
                 key={t}
-                className="rounded-2xl border border-white/10 bg-white/2 px-4 py-3 text-sm text-cyber-muted"
+                className="rounded-2xl border border-black/8 bg-white/70 px-4 py-3 text-sm text-cyber-muted"
               >
                 {t}
               </div>

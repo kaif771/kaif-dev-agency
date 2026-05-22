@@ -63,7 +63,7 @@ export default function Navbar() {
     <header className="fixed top-4 left-0 right-0 z-40 px-4">
       <div
         data-scrolled={scrolled ? "true" : "false"}
-        className="mx-auto max-w-7xl glass-panel rounded-full px-5 py-3 flex items-center justify-between border-white/8 transition-[background,border-color] duration-300 data-[scrolled=true]:border-white/12"
+        className="mx-auto max-w-7xl glass-panel rounded-full px-5 py-3 flex items-center justify-between border-black/8 transition-[background,border-color] duration-300 data-[scrolled=true]:border-black/12"
       >
         <a
           href="#top"
@@ -93,7 +93,7 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={handleAnchor("#contact")}
-            className="inline-flex items-center gap-2 rounded-full bg-cyber-blue text-black px-4 py-2 text-xs font-semibold transition-transform duration-300 hover:brightness-105"
+            className="inline-flex items-center gap-2 rounded-full bg-cyber-blue text-white px-4 py-2 text-xs font-semibold transition-transform duration-300 hover:brightness-105"
           >
             Start a project <ArrowUpRight className="h-4 w-4" />
           </a>

@@ -132,7 +132,7 @@ export default function AiChatWidget() {
       {!isOpen && (
         <button
           onClick={handleToggle}
-          className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-white/3 border border-white/10 text-cyber-text hover:bg-white/4 transition-colors group"
+          className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-black/8 text-cyber-text hover:bg-black/[0.03] transition-colors group shadow-lg"
           aria-label="Open AI Assistant"
         >
           <MessageSquare className="w-6 h-6 text-cyber-blue transition-transform duration-300 group-hover:scale-110" />
@@ -147,9 +147,9 @@ export default function AiChatWidget() {
 
       {/* Expandable Chat Window */}
       {isOpen && (
-        <div className="flex flex-col w-[350px] sm:w-[380px] h-[520px] rounded-3xl glass-panel border border-white/10 overflow-hidden">
+        <div className="flex flex-col w-[350px] sm:w-[380px] h-[520px] rounded-3xl glass-panel border border-black/8 overflow-hidden shadow-2xl">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 bg-black/20 border-b border-white/10">
+          <div className="flex items-center justify-between p-4 bg-black/[0.02] border-b border-black/8">
             <div className="flex items-center gap-2.5">
               <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-cyber-blue/10 border border-cyber-blue/30 text-cyber-blue">
                 <Bot className="w-5 h-5" />
@@ -166,7 +166,7 @@ export default function AiChatWidget() {
             </div>
             <button
               onClick={handleToggle}
-              className="p-1 rounded-md text-cyber-muted hover:text-cyber-text hover:bg-white/4 transition-colors"
+              className="p-1 rounded-md text-cyber-muted hover:text-cyber-text hover:bg-black/[0.04] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -194,8 +194,8 @@ export default function AiChatWidget() {
                 <div
                   className={`max-w-[75%] p-3 rounded-xl border ${
                     msg.sender === "user"
-                      ? "bg-white/3 border-white/10 text-cyber-text rounded-tr-none"
-                      : "bg-black/20 border-white/10 text-cyber-text/90 rounded-tl-none font-mono text-[13px] leading-relaxed"
+                      ? "bg-white border-black/8 text-cyber-text rounded-tr-none shadow-sm animate-fade-in"
+                      : "bg-black/[0.02] border-black/8 text-cyber-text/90 rounded-tl-none font-mono text-[13px] leading-relaxed"
                   }`}
                 >
                   {msg.text}
@@ -208,7 +208,7 @@ export default function AiChatWidget() {
                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-cyber-blue/10 border border-cyber-blue/40 text-cyber-blue shrink-0">
                   <Bot className="w-4 h-4" />
                 </div>
-                <div className="bg-black/20 border border-white/10 p-3 rounded-xl rounded-tl-none max-w-[75%]">
+                <div className="bg-black/[0.02] border border-black/8 p-3 rounded-xl rounded-tl-none max-w-[75%]">
                   <div className="flex gap-1 items-center py-1">
                     <span className="w-1.5 h-1.5 bg-cyber-blue rounded-full animate-bounce"></span>
                     <span className="w-1.5 h-1.5 bg-cyber-blue rounded-full animate-bounce [animation-delay:0.2s]"></span>
@@ -221,14 +221,14 @@ export default function AiChatWidget() {
           </div>
 
           {/* Quick-reply Tags */}
-          <div className="p-3 bg-black/20 border-t border-white/10 space-y-1.5">
+          <div className="p-3 bg-black/[0.02] border-t border-black/8 space-y-1.5">
             <p className="text-[10px] text-cyber-muted font-mono tracking-wider">TAP QUICK INQUIRIES:</p>
             <div className="flex flex-wrap gap-1.5">
               {PRE_BAKED_QUESTIONS.map((q) => (
                 <button
                   key={q.key}
                   onClick={() => handleSendMessage(q.text)}
-                  className="px-2.5 py-1 text-[11px] font-mono rounded-full bg-white/2 hover:bg-white/4 border border-white/10 text-cyber-muted hover:text-cyber-text transition-colors"
+                  className="px-2.5 py-1 text-[11px] font-mono rounded-full bg-white hover:bg-black/[0.03] border border-black/8 text-cyber-muted hover:text-cyber-text transition-colors shadow-sm animate-fade-in"
                 >
                   {q.text}
                 </button>
@@ -242,19 +242,19 @@ export default function AiChatWidget() {
               e.preventDefault();
               handleSendMessage(inputValue);
             }}
-            className="p-3 bg-black/25 border-t border-white/10 flex gap-2"
+            className="p-3 bg-black/[0.02] border-t border-black/8 flex gap-2"
           >
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask about stack, timeline, AI, performance…"
-              className="flex-1 px-3.5 py-2 text-xs bg-white/3 hover:bg-white/4 focus:bg-white/4 border border-white/10 focus:border-white/18 rounded-xl text-cyber-text placeholder:text-white/25 focus:outline-none transition-colors font-mono"
+              className="flex-1 px-3.5 py-2 text-xs bg-white border border-black/8 rounded-xl text-cyber-text placeholder:text-cyber-muted/40 focus:outline-none focus:border-cyber-blue/30 transition-colors font-mono"
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="p-2.5 rounded-xl bg-cyber-blue text-black hover:brightness-105 disabled:opacity-50 transition shrink-0"
+              className="p-2.5 rounded-xl bg-cyber-blue text-white hover:brightness-105 disabled:opacity-50 transition shrink-0 shadow-sm"
             >
               <Send className="w-4 h-4" />
             </button>
