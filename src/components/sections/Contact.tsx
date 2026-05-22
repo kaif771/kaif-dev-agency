@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useRef, useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Sparkles, RefreshCw } from "lucide-react";
 import Magnetic from "@/components/motion/Magnetic";
 import { useRevealOnScroll } from "@/lib/motion/useRevealOnScroll";
 
@@ -59,7 +59,47 @@ export default function Contact() {
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const [statusMessage, setStatusMessage] = useState("");
 
+  // Scope audit states
+  const [isScopeAuditing, setIsScopeAuditing] = useState(false);
+  const [scopeAuditData, setScopeAuditData] = useState<{
+    command: string;
+    trace: string[];
+    result: string;
+    complexity: string;
+    offline?: boolean;
+  } | null>(null);
+
   const budgetInfo = useMemo(() => getBudgetTierLabel(formData.budget), [formData.budget]);
+
+  const handleScopeAudit = async () => {
+    if (formData.details.length < 10) return;
+    setIsScopeAuditing(true);
+    setScopeAuditData(null);
+    try {
+      const response = await fetch("/api/ai-audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "scope-audit",
+          name: formData.name || "Anonymous Client",
+          budget: formData.budget,
+          details: formData.details,
+        }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setTimeout(() => {
+          setScopeAuditData(data.data);
+          setIsScopeAuditing(false);
+        }, 1500);
+      } else {
+        setIsScopeAuditing(false);
+      }
+    } catch (error) {
+      console.error("Scope audit failed:", error);
+      setIsScopeAuditing(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,6 +119,7 @@ export default function Contact() {
         setSubmitStatus("success");
         setStatusMessage(data.message || "Request received.");
         setFormData({ name: "", email: "", budget: 500, details: "" });
+        setScopeAuditData(null); // Reset scope audit data
       } else {
         setSubmitStatus("error");
         setStatusMessage(data.error || "Something went wrong.");
@@ -243,6 +284,93 @@ export default function Contact() {
                   className="w-full resize-none rounded-2xl border border-black/8 bg-white px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
                 />
               </div>
+
+              {/* Premium Gemini AI Scope Estimator Module */}
+              <div className="rounded-3xl border border-black/8 bg-black/[0.02] p-5.5 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase flex items-center gap-1.5">
+                      <Sparkles className="h-4 w-4 text-cyber-blue animate-pulse" />
+                      AI Scope Estimator
+                    </div>
+                    <div className="text-xs text-cyber-muted font-medium">
+                      Get instant architecture suggestions and complexity estimation.
+                    </div>
+                  </div>
+                  
+                  {formData.details.trim().length >= 10 ? (
+                    <button
+                      type="button"
+                      disabled={isScopeAuditing}
+                      onClick={handleScopeAudit}
+                      className="rounded-2xl bg-cyber-blue hover:brightness-105 px-4.5 py-3 text-xs sm:text-sm font-bold text-white transition active:scale-[0.98] shadow-sm flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-60 shrink-0"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      {isScopeAuditing ? "Analyzing..." : "Analyze Scope"}
+                    </button>
+                  ) : (
+                    <div className="text-xs font-mono font-bold text-cyber-muted border border-black/8 bg-white px-3.5 py-2.5 rounded-xl text-center shrink-0">
+                      ⚠️ Write details to unlock AI
+                    </div>
+                  )}
+                </div>
+
+                {isScopeAuditing && (
+                  <div className="rounded-2xl border border-black/8 bg-black/[0.04] p-4.5 font-mono text-xs leading-relaxed text-cyber-muted animate-pulse">
+                    <div className="text-cyber-text font-bold">$ pnpm ship --analyze-scope</div>
+                    <div className="text-cyber-blue font-bold mt-1 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyber-blue animate-ping"></span>
+                      → consulting Gemini Systems Architect...
+                    </div>
+                    <div className="text-gray-400">→ inspecting complexity bounds and technical stack options...</div>
+                  </div>
+                )}
+
+                {!isScopeAuditing && scopeAuditData && (
+                  <div className="rounded-2xl border border-cyber-blue/30 bg-cyber-blue/[0.01] p-4.5 font-mono text-xs leading-relaxed text-cyber-muted relative overflow-hidden">
+                    <div className="flex items-center justify-between">
+                      <span className="text-cyber-text font-bold">$ {scopeAuditData.command || "analyze --scope-complexity"}</span>
+                      <span className="text-[9px] text-cyber-blue border border-cyber-blue/30 bg-cyber-blue/5 px-2 py-0.5 rounded font-bold font-mono">
+                        {scopeAuditData.offline ? "SIMULATED REVIEW" : "LIVE GEMINI"}
+                      </span>
+                    </div>
+
+                    <div className="mt-2 space-y-1">
+                      {scopeAuditData.trace?.map((line: string, idx: number) => (
+                        <div key={idx} className={line.startsWith("✓") ? "text-cyber-green font-bold" : "text-cyber-muted"}>
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="border-t border-black/8 pt-3 mt-3 space-y-2">
+                      <div className="flex items-center justify-between gap-4 font-sans text-xs">
+                        <span className="font-mono text-[10px] tracking-wider uppercase font-bold text-cyber-text">Complexity Tier</span>
+                        <span className="font-black text-cyber-blue">{scopeAuditData.complexity || "MVP Tier"}</span>
+                      </div>
+                      
+                      <div className="border-t border-black/5 pt-2">
+                        <div className="text-cyber-blue font-bold text-[10px] uppercase tracking-wider mb-1 font-sans">
+                          GEMINI SYSTEM ARCHITECTURE RECOMMENDATION:
+                        </div>
+                        <p className="text-cyber-text font-semibold leading-normal font-sans text-xs sm:text-sm">
+                          {scopeAuditData.result}
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleScopeAudit}
+                      className="mt-3 w-full py-2 px-3 text-[11px] font-bold rounded-xl border border-black/8 bg-white hover:bg-black/[0.03] text-cyber-text font-sans transition active:scale-[0.98] flex items-center justify-center gap-1 cursor-pointer"
+                    >
+                      <RefreshCw className="h-3 w-3" />
+                      Run New Scope Analysis
+                    </button>
+                  </div>
+                )}
+              </div>
+
 
               {submitStatus === "error" ? (
                 <div className="rounded-2xl border border-black/8 bg-black/[0.02] px-4 py-3.5 text-base font-semibold text-cyber-text">
