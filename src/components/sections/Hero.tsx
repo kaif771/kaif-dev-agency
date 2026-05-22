@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
-import { ArrowRight, CheckCircle2, Terminal } from "lucide-react";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import { ArrowRight, CheckCircle2, Terminal, Sparkles, RefreshCw } from "lucide-react";
 import Magnetic from "@/components/motion/Magnetic";
 import Tilt from "@/components/motion/Tilt";
 import Counter from "@/components/motion/Counter";
@@ -15,6 +15,50 @@ export default function Hero() {
 
   const scopeRef = useRef<HTMLElement | null>(null);
   const rightColRef = useRef<HTMLDivElement | null>(null);
+
+  const [aiOptimizeData, setAiOptimizeData] = useState<{
+    command: string;
+    trace: string[];
+    recommendation: string;
+    offline?: boolean;
+  } | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const handleAiOptimize = async () => {
+    setIsAiLoading(true);
+    setAiOptimizeData(null);
+
+    const targets = ["Next.js Hydration & CLS", "Database Query Scans", "Dynamic Chunks & Webpack", "Tailwind CSS Compilation"];
+    const randomTarget = targets[Math.floor(Math.random() * targets.length)];
+
+    try {
+      const res = await fetch("/api/ai-optimize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target: randomTarget }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setTimeout(() => {
+          setAiOptimizeData({
+            command: json.data.command,
+            trace: json.data.trace,
+            recommendation: json.data.recommendation,
+            offline: !!json.offline,
+          });
+          setIsAiLoading(false);
+        }, 1200);
+      }
+    } catch (e) {
+      console.error("AI compile error", e);
+      setIsAiLoading(false);
+    }
+  };
+
+  const handleResetTerminal = () => {
+    setAiOptimizeData(null);
+    setIsAiLoading(false);
+  };
 
   useRevealOnScroll(scopeRef, {
     selector: "[data-reveal]",
@@ -172,8 +216,8 @@ export default function Hero() {
           </div>
 
           <Tilt className="relative" maxRotate={5}>
-            <div data-hero-panel data-parallax className="rounded-2xl border border-black/8 bg-black/[0.04] overflow-hidden shadow-sm">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
+            <div data-hero-panel data-parallax className="rounded-2xl border border-black/8 bg-black/[0.04] overflow-hidden shadow-sm flex flex-col">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-black/8 bg-black/[0.02]">
                 <div className="flex items-center gap-2">
                   <span className="h-2.5 w-2.5 rounded-full bg-cyber-blue/70" />
                   <span className="h-2.5 w-2.5 rounded-full bg-black/20" />
@@ -184,16 +228,87 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div className="px-5 py-5 font-mono text-sm leading-relaxed text-cyber-muted font-medium">
-                <div className="text-cyber-text font-semibold">$ pnpm ship --target=prod</div>
-                <div className="mt-2">→ compiling routes…</div>
-                <div>→ optimizing bundles…</div>
-                <div className="text-cyber-green mt-2 font-bold">✓ build stable</div>
-                <div className="text-cyber-muted">✓ checks: types · lint · perf</div>
-                <div className="mt-3.5 flex items-center gap-2 text-cyber-muted">
-                  <Terminal className="h-4 w-4 text-cyber-blue" />
-                  <span className="tracking-[0.15em] text-xs sm:text-sm font-bold text-cyber-text">READY · localhost:5000</span>
-                </div>
+              <div className="px-5 py-5 font-mono text-sm leading-relaxed text-cyber-muted font-medium min-h-[175px]">
+                {isAiLoading ? (
+                  <div className="space-y-2 animate-pulse">
+                    <div className="text-cyber-text font-bold">$ pnpm ship --optimize-ai</div>
+                    <div className="text-cyber-blue font-bold flex items-center gap-1.5 mt-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyber-blue animate-ping"></span>
+                      → consulting Google Gemini AI...
+                    </div>
+                    <div className="text-gray-400">→ parsing bundle optimization paths...</div>
+                    <div className="text-gray-400">→ optimizing component boundaries...</div>
+                  </div>
+                ) : aiOptimizeData ? (
+                  <div className="space-y-2">
+                    <div className="text-cyber-text font-bold flex items-center justify-between">
+                      <span>$ pnpm ship --{aiOptimizeData.command}</span>
+                      <span className="text-[9px] sm:text-[10px] text-cyber-green border border-cyber-green/30 bg-cyber-green/5 px-2 py-0.5 rounded-md font-mono font-bold tracking-wider">
+                        {aiOptimizeData.offline ? "SIMULATED AI" : "LIVE GEMINI"}
+                      </span>
+                    </div>
+                    
+                    <div className="mt-2 space-y-1">
+                      {aiOptimizeData.trace.map((line, idx) => (
+                        <div
+                          key={idx}
+                          className={
+                            line.startsWith("✓")
+                              ? "text-cyber-green font-bold"
+                              : line.startsWith("✗")
+                              ? "text-red-500 font-bold"
+                              : "text-cyber-muted"
+                          }
+                        >
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="border-t border-black/8 pt-3 mt-3">
+                      <div className="text-cyber-blue font-bold text-xs uppercase tracking-wider flex items-center gap-1 font-sans">
+                        <Sparkles className="h-3.5 w-3.5 text-cyber-blue" />
+                        GEMINI COMPILED ADVICE:
+                      </div>
+                      <p className="text-cyber-text text-sm font-semibold mt-1 leading-normal">
+                        {aiOptimizeData.recommendation}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="text-cyber-text font-semibold">$ pnpm ship --target=prod</div>
+                    <div className="mt-2">→ compiling routes…</div>
+                    <div>→ optimizing bundles…</div>
+                    <div className="text-cyber-green mt-2 font-bold">✓ build stable</div>
+                    <div className="text-cyber-muted">✓ checks: types · lint · perf</div>
+                    <div className="mt-3.5 flex items-center gap-2 text-cyber-muted">
+                      <Terminal className="h-4 w-4 text-cyber-blue" />
+                      <span className="tracking-[0.15em] text-xs sm:text-sm font-bold text-cyber-text">READY · localhost:5000</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex border-t border-black/8 bg-black/[0.02] p-2 gap-2">
+                {aiOptimizeData ? (
+                  <button
+                    onClick={handleResetTerminal}
+                    className="flex-1 py-2 px-3 text-xs font-bold font-mono rounded-xl bg-white hover:bg-black/[0.03] border border-black/8 text-cyber-text flex items-center justify-center gap-1.5 transition active:scale-[0.98]"
+                  >
+                    <RefreshCw className="h-3.5 w-3.5" />
+                    Reset Compiler
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleAiOptimize}
+                    disabled={isAiLoading}
+                    className="flex-1 py-2 px-3 text-xs font-bold font-mono rounded-xl bg-cyber-blue hover:brightness-105 text-white flex items-center justify-center gap-1.5 transition shadow-sm disabled:opacity-50 active:scale-[0.98]"
+                  >
+                    <Sparkles className="h-3.5 w-3.5 animate-pulse" />
+                    Optimize with Gemini AI
+                  </button>
+                )}
               </div>
             </div>
           </Tilt>
