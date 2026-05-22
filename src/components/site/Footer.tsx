@@ -49,25 +49,25 @@ export default function Footer() {
 
   return (
     <footer ref={scopeRef} className="pb-14">
-      <div className="glass-panel rounded-3xl border-white/8 overflow-hidden">
+      <div className="glass-panel rounded-3xl border-black/8 overflow-hidden">
         <div className="px-7 sm:px-10 pt-8">
           <div
             ref={lineRef}
-            className="h-px w-full bg-gradient-to-r from-cyber-blue/70 via-white/15 to-cyber-green/60"
+            className="h-px w-full bg-gradient-to-r from-cyber-blue/70 via-black/10 to-cyber-green/60"
           />
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             <div className="md:col-span-6">
               <div
                 data-reveal
-                className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase"
+                className="font-mono text-xs sm:text-sm tracking-[0.2em] text-cyber-text font-bold uppercase"
               >
                 Kaif Dev Agency
               </div>
-              <div data-reveal className="mt-3 text-xl font-black text-cyber-text">
+              <div data-reveal className="mt-3 text-xl sm:text-2xl font-black text-cyber-text">
                 A lean engineering studio.
               </div>
-              <p data-reveal className="mt-3 max-w-md text-sm leading-relaxed text-cyber-muted">
+              <p data-reveal className="mt-3 max-w-md text-base leading-relaxed text-cyber-text font-medium">
                 Built with Next.js App Router, Tailwind, Lenis, GSAP — and a strict obsession with
                 performance.
               </p>
@@ -77,11 +77,11 @@ export default function Footer() {
               <div>
                 <div
                   data-reveal
-                  className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase"
+                  className="font-mono text-xs sm:text-sm tracking-[0.2em] text-cyber-text font-bold uppercase"
                 >
                   Sections
                 </div>
-                <div data-reveal className="mt-3 flex flex-col gap-2 text-sm">
+                <div data-reveal className="mt-3 flex flex-col gap-2.5 text-base font-semibold">
                   {[
                     { label: "Capabilities", href: "#capabilities" },
                     { label: "Work", href: "#projects" },
@@ -101,23 +101,23 @@ export default function Footer() {
               <div>
                 <div
                   data-reveal
-                  className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase"
+                  className="font-mono text-xs sm:text-sm tracking-[0.2em] text-cyber-text font-bold uppercase"
                 >
                   Contact
                 </div>
-                <div data-reveal className="mt-3 text-sm text-cyber-muted">
+                <div data-reveal className="mt-3 text-base text-cyber-text font-semibold space-y-1">
                   <div className="text-cyber-text/90">kaifdevagency@gmail.com</div>
-                  <div className="mt-2">Maharashtra, India</div>
+                  <div className="mt-2 text-cyber-muted font-medium">Maharashtra, India</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-10 pb-7 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-white/10 pt-6">
-            <div data-reveal className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted">
+          <div className="mt-10 pb-7 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-black/10 pt-6">
+            <div data-reveal className="font-mono text-xs sm:text-[13px] tracking-[0.18em] text-cyber-muted font-semibold">
               © {new Date().getFullYear()} KAIF DEV AGENCY
             </div>
-            <div data-reveal className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted">
+            <div data-reveal className="font-mono text-xs sm:text-[13px] tracking-[0.18em] text-cyber-muted font-semibold">
               BUILD · SHIP · POLISH
             </div>
           </div>

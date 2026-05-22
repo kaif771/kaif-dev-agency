@@ -94,25 +94,25 @@ export default function Contact() {
   return (
     <section ref={scopeRef} id="contact" className="mt-16 sm:mt-20 pb-24">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-        <div data-reveal className="lg:col-span-5 glass-panel rounded-3xl p-7 sm:p-9 border-black/8 relative overflow-hidden">
+        <div data-reveal className="lg:col-span-5 glass-panel rounded-3xl p-7 sm:p-9 border-black/8 relative overflow-hidden shadow-sm">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-20 -left-12 h-56 w-56 rounded-full bg-cyber-blue/10 blur-3xl" />
             <div className="absolute -bottom-28 right-0 h-64 w-64 rounded-full bg-cyber-green/8 blur-3xl" />
           </div>
 
           <div className="relative">
-            <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase">
+            <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase">
               Project intake
             </div>
-            <h2 className="mt-3 text-3xl font-black tracking-[-0.02em] text-cyber-text">
+            <h2 className="mt-3 text-3xl sm:text-4xl font-black tracking-[-0.02em] text-cyber-text">
               Let’s build something that feels expensive.
             </h2>
-            <p className="mt-5 text-sm leading-relaxed text-cyber-muted">
+            <p className="mt-5 text-base leading-relaxed text-cyber-text font-medium">
               Share scope, constraints, and timeline. You’ll get a structured response with next
               steps and an honest technical plan.
             </p>
 
-            <div className="mt-8 space-y-3 text-sm text-cyber-muted">
+            <div className="mt-8 space-y-3 text-base text-cyber-text">
               {[
                 { k: "Response", v: "Within 12 hours" },
                 { k: "Slots", v: "2 active builds" },
@@ -120,38 +120,38 @@ export default function Contact() {
               ].map((item) => (
                 <div
                   key={item.k}
-                  className="flex items-center justify-between rounded-2xl border border-black/8 bg-white/70 px-4 py-3"
+                  className="flex items-center justify-between rounded-2xl border border-black/8 bg-white/70 px-4 py-3.5 shadow-sm"
                 >
-                  <span className="font-mono text-[10px] tracking-[0.32em] uppercase text-cyber-muted">
+                  <span className="font-mono text-xs sm:text-sm tracking-[0.15em] uppercase text-cyber-text font-bold">
                     {item.k}
                   </span>
-                  <span className="text-cyber-text font-semibold">{item.v}</span>
+                  <span className="text-cyber-text font-black">{item.v}</span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-10 border-t border-black/8 pt-5 font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
+            <div className="mt-10 border-t border-black/8 pt-5 font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text">
               SECURE FORM · API ROUTE · RESEND OPTIONAL
             </div>
           </div>
         </div>
 
-        <div data-reveal className="lg:col-span-7 glass-panel rounded-3xl p-7 sm:p-9 border-black/8">
+        <div data-reveal className="lg:col-span-7 glass-panel rounded-3xl p-7 sm:p-9 border-black/8 shadow-sm">
           {submitStatus === "success" ? (
             <div className="space-y-5">
-              <div className="rounded-2xl border border-black/8 bg-white/70 p-5">
-                <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-green uppercase">
+              <div className="rounded-2xl border border-black/8 bg-white/70 p-6 shadow-sm">
+                <div className="font-mono text-xs tracking-[0.24em] font-bold text-cyber-green uppercase">
                   Received
                 </div>
-                <div className="mt-2 text-lg font-bold text-cyber-text">
+                <div className="mt-2 text-xl font-bold text-cyber-text">
                   Thanks — I’ve got it.
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-cyber-muted">{statusMessage}</p>
+                <p className="mt-2 text-base leading-relaxed text-cyber-text font-medium">{statusMessage}</p>
               </div>
 
               <button
                 onClick={() => setSubmitStatus("idle")}
-                className="rounded-2xl border border-black/8 bg-white px-5 py-3 text-sm font-semibold text-cyber-text hover:bg-black/[0.03] transition-colors"
+                className="rounded-2xl border border-black/8 bg-white px-5 py-3.5 text-base font-bold text-cyber-text hover:bg-black/[0.03] transition-colors shadow-sm"
               >
                 Send another request
               </button>
@@ -162,7 +162,7 @@ export default function Contact() {
                 <div className="space-y-2">
                   <label
                     htmlFor="name"
-                    className="block font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase"
+                    className="block font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase"
                   >
                     Name
                   </label>
@@ -173,14 +173,14 @@ export default function Contact() {
                     value={formData.name}
                     onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
                     placeholder="John Doe"
-                    className="w-full rounded-2xl border border-black/8 bg-white px-4 py-3 text-sm text-cyber-text placeholder:text-cyber-muted/40 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
+                    className="w-full rounded-2xl border border-black/8 bg-white px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <label
                     htmlFor="email"
-                    className="block font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase"
+                    className="block font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase"
                   >
                     Email
                   </label>
@@ -191,17 +191,17 @@ export default function Contact() {
                     value={formData.email}
                     onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
                     placeholder="you@company.com"
-                    className="w-full rounded-2xl border border-black/8 bg-white px-4 py-3 text-sm text-cyber-text placeholder:text-cyber-muted/40 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
+                    className="w-full rounded-2xl border border-black/8 bg-white px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
                   />
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-black/8 bg-black/[0.02] p-5">
+              <div className="rounded-3xl border border-black/8 bg-black/[0.02] p-5.5">
                 <div className="flex items-center justify-between gap-4">
-                  <label className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase">
+                  <label className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase">
                     Budget
                   </label>
-                  <div className="rounded-full border border-black/8 bg-white px-3 py-1.5 text-xs font-mono text-cyber-text font-bold">
+                  <div className="rounded-full border border-black/8 bg-white px-4 py-2 text-sm sm:text-base font-mono text-cyber-text font-black shadow-sm">
                     ${formData.budget.toLocaleString()}
                   </div>
                 </div>
@@ -219,17 +219,17 @@ export default function Contact() {
                 />
 
                 <div className="mt-4">
-                  <div className={`text-sm font-bold ${budgetInfo.colorClass}`}>
+                  <div className={`text-base font-black ${budgetInfo.colorClass}`}>
                     {budgetInfo.title}
                   </div>
-                  <div className="mt-1 text-xs text-cyber-muted">{budgetInfo.desc}</div>
+                  <div className="mt-1 text-sm text-cyber-text font-medium">{budgetInfo.desc}</div>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label
                   htmlFor="details"
-                  className="block font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase"
+                  className="block font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase"
                 >
                   Project details
                 </label>
@@ -240,12 +240,12 @@ export default function Contact() {
                   value={formData.details}
                   onChange={(e) => setFormData((p) => ({ ...p, details: e.target.value }))}
                   placeholder="What are we building? Timeline, integrations, constraints…"
-                  className="w-full resize-none rounded-2xl border border-black/8 bg-white px-4 py-3 text-sm text-cyber-text placeholder:text-cyber-muted/40 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
+                  className="w-full resize-none rounded-2xl border border-black/8 bg-white px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
                 />
               </div>
 
               {submitStatus === "error" ? (
-                <div className="rounded-2xl border border-black/8 bg-black/[0.02] px-4 py-3 text-sm text-cyber-text">
+                <div className="rounded-2xl border border-black/8 bg-black/[0.02] px-4 py-3.5 text-base font-semibold text-cyber-text">
                   {statusMessage}
                 </div>
               ) : null}
@@ -254,7 +254,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-2xl bg-cyber-blue px-6 py-4 text-sm font-semibold text-white hover:brightness-105 disabled:opacity-60 transition"
+                  className="w-full rounded-2xl bg-cyber-blue px-6 py-4.5 text-base font-bold text-white hover:brightness-105 disabled:opacity-60 transition shadow-md"
                 >
                   {isSubmitting ? "Sending…" : "Send request"}
                   <ChevronRight className="inline-block ml-2 h-4 w-4" />

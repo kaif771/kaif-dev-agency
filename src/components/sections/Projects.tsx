@@ -50,18 +50,18 @@ function CaseStudyModal({
       >
         <div className="p-6 sm:p-7 border-b border-black/8 flex items-start justify-between gap-6">
           <div>
-            <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase">
+            <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase">
               Under the hood
             </div>
             <h3 className="mt-2 text-xl sm:text-2xl font-black tracking-[-0.02em] text-cyber-text">
               {project.title}
             </h3>
-            <div className="mt-2 text-sm text-cyber-muted">{project.category}</div>
+            <div className="mt-2 text-sm font-semibold text-cyber-text">{project.category}</div>
           </div>
 
           <button
             onClick={onClose}
-            className="rounded-xl border border-black/8 bg-white px-3 py-2 text-xs font-mono tracking-[0.18em] text-cyber-muted hover:text-cyber-text hover:bg-black/[0.03] transition-colors"
+            className="rounded-xl border border-black/8 bg-white px-4 py-2.5 text-sm font-mono tracking-[0.12em] font-bold text-cyber-text hover:text-cyber-blue hover:bg-black/[0.03] transition-colors shadow-sm"
           >
             CLOSE
           </button>
@@ -69,32 +69,32 @@ function CaseStudyModal({
 
         <div className="p-6 sm:p-7 space-y-6 max-h-[70vh] overflow-y-auto">
           <div className="space-y-2">
-            <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-blue uppercase">
+            <div className="font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-blue uppercase">
               Challenge
             </div>
-            <p className="rounded-2xl border border-black/8 bg-white/70 p-4 text-sm leading-relaxed text-cyber-muted">
+            <p className="rounded-2xl border border-black/8 bg-white/70 p-4.5 text-base leading-relaxed text-cyber-text font-medium shadow-sm">
               {project.underTheHood.challenge}
             </p>
           </div>
 
           <div className="space-y-2">
-            <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-green uppercase">
+            <div className="font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-green uppercase">
               Solution
             </div>
-            <p className="rounded-2xl border border-black/8 bg-white/70 p-4 text-sm leading-relaxed text-cyber-muted">
+            <p className="rounded-2xl border border-black/8 bg-white/70 p-4.5 text-base leading-relaxed text-cyber-text font-medium shadow-sm">
               {project.underTheHood.solution}
             </p>
           </div>
 
           <div className="space-y-3">
-            <div className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase">
+            <div className="font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-text uppercase">
               Metrics
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {project.underTheHood.metrics.map((m) => (
                 <div
                   key={m}
-                  className="rounded-2xl border border-black/8 bg-white/70 p-4 text-sm text-cyber-text font-bold"
+                  className="rounded-2xl border border-black/8 bg-white/70 p-4 text-lg text-cyber-text font-black shadow-sm"
                 >
                   {m}
                 </div>
@@ -149,20 +149,20 @@ export default function Projects() {
         <div>
           <div
             data-reveal
-            className="font-mono text-[10px] tracking-[0.35em] text-cyber-muted uppercase"
+            className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase"
           >
             Work
           </div>
           <h2
             data-reveal
-            className="mt-3 text-2xl sm:text-3xl font-black tracking-[-0.02em] text-cyber-text"
+            className="mt-3 text-3xl sm:text-4xl font-black tracking-[-0.02em] text-cyber-text"
           >
             Case studies, not screenshots.
           </h2>
         </div>
 
-        <p data-reveal className="max-w-xl text-sm leading-relaxed text-cyber-muted">
-          Click <span className="text-cyber-text">Under the hood</span> for the engineering story:
+        <p data-reveal className="max-w-xl text-base sm:text-[17px] leading-relaxed text-cyber-text font-medium">
+          Click <span className="text-cyber-text font-bold">Under the hood</span> for the engineering story:
           constraints, solution shape, and what moved the needle.
         </p>
       </div>
@@ -172,49 +172,51 @@ export default function Projects() {
           <Tilt key={proj.id} className="h-full">
             <article
               data-reveal
-              className="glass-panel h-full rounded-3xl p-6 border-black/8 transition-colors duration-300 hover:bg-black/[0.01]"
+              className="glass-panel h-full rounded-3xl p-7 border-black/8 transition-colors duration-300 hover:bg-black/[0.01] shadow-sm flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between gap-3">
-                <span className="rounded-full border border-black/8 bg-black/[0.02] px-3 py-1.5 font-mono text-[10px] tracking-[0.28em] text-cyber-muted uppercase">
-                  {proj.category}
-                </span>
-                {proj.liveUrl ? (
-                  <a
-                    href={proj.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-xl border border-black/8 bg-white p-2 text-cyber-text hover:bg-black/[0.03] transition-colors"
-                    aria-label={`Open ${proj.title} live preview`}
-                    title="Live preview"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                ) : null}
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="rounded-full border border-black/8 bg-black/[0.02] px-4 py-2.5 font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase">
+                    {proj.category}
+                  </span>
+                  {proj.liveUrl ? (
+                    <a
+                      href={proj.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-xl border border-black/8 bg-white p-2 text-cyber-text hover:bg-black/[0.03] transition-colors"
+                      aria-label={`Open ${proj.title} live preview`}
+                      title="Live preview"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  ) : null}
+                </div>
+
+                <h3 className="mt-5 text-xl font-bold text-cyber-text tracking-[-0.01em]">
+                  {proj.title}
+                </h3>
+                <p className="mt-3 text-base leading-relaxed text-cyber-text font-medium">
+                  {proj.description}
+                </p>
+
+                <ul className="mt-5 space-y-2">
+                  {proj.highlights.map((h) => (
+                    <li
+                      key={h}
+                      className="flex items-center gap-2 text-base text-cyber-text font-semibold"
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyber-blue/70 shrink-0" />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <h3 className="mt-5 text-lg font-bold text-cyber-text tracking-[-0.01em]">
-                {proj.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-cyber-muted">
-                {proj.description}
-              </p>
-
-              <ul className="mt-5 space-y-2">
-                {proj.highlights.map((h) => (
-                  <li
-                    key={h}
-                    className="flex items-center gap-2 text-[12px] text-cyber-muted"
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-cyber-blue/70" />
-                    {h}
-                  </li>
-                ))}
-              </ul>
 
               <div className="mt-7">
                 <button
                   onClick={() => setActive(proj)}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-black/8 bg-white px-4 py-3 text-sm font-semibold text-cyber-text hover:bg-black/[0.03] transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-black/8 bg-white px-4 py-3.5 text-base font-bold text-cyber-text hover:bg-black/[0.03] transition-colors shadow-sm"
                 >
                   <Terminal className="h-4 w-4 text-cyber-blue" />
                   Under the hood

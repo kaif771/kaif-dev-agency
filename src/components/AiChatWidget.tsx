@@ -156,10 +156,10 @@ export default function AiChatWidget() {
                 <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-cyber-green border border-black/40 animate-pulse"></span>
               </div>
               <div>
-                <h3 className="text-sm font-semibold tracking-wide text-cyber-text flex items-center gap-1.5">
+                <h3 className="text-sm sm:text-base font-bold tracking-wide text-cyber-text flex items-center gap-1.5">
                   Studio Assistant <Sparkles className="w-3 h-3 text-cyber-blue" />
                 </h3>
-                <p className="text-[10px] text-cyber-muted tracking-widest font-mono">
+                <p className="text-xs text-cyber-text tracking-wider font-mono font-bold">
                   STATUS: ONLINE
                 </p>
               </div>
@@ -191,11 +191,11 @@ export default function AiChatWidget() {
                 </div>
 
                 {/* Bubble */}
-                <div
-                  className={`max-w-[75%] p-3 rounded-xl border ${
+                 <div
+                  className={`max-w-[75%] p-3.5 rounded-2xl border ${
                     msg.sender === "user"
-                      ? "bg-white border-black/8 text-cyber-text rounded-tr-none shadow-sm animate-fade-in"
-                      : "bg-black/[0.02] border-black/8 text-cyber-text/90 rounded-tl-none font-mono text-[13px] leading-relaxed"
+                      ? "bg-white border-black/8 text-cyber-text rounded-tr-none shadow-sm animate-fade-in text-sm sm:text-base font-semibold"
+                      : "bg-black/[0.02] border-black/8 text-cyber-text rounded-tl-none font-mono text-sm sm:text-base leading-relaxed font-semibold"
                   }`}
                 >
                   {msg.text}
@@ -222,13 +222,13 @@ export default function AiChatWidget() {
 
           {/* Quick-reply Tags */}
           <div className="p-3 bg-black/[0.02] border-t border-black/8 space-y-1.5">
-            <p className="text-[10px] text-cyber-muted font-mono tracking-wider">TAP QUICK INQUIRIES:</p>
+            <p className="text-xs text-cyber-text font-mono font-bold tracking-wider">TAP QUICK INQUIRIES:</p>
             <div className="flex flex-wrap gap-1.5">
               {PRE_BAKED_QUESTIONS.map((q) => (
                 <button
                   key={q.key}
                   onClick={() => handleSendMessage(q.text)}
-                  className="px-2.5 py-1 text-[11px] font-mono rounded-full bg-white hover:bg-black/[0.03] border border-black/8 text-cyber-muted hover:text-cyber-text transition-colors shadow-sm animate-fade-in"
+                  className="px-3.5 py-1.5 text-xs sm:text-sm font-mono font-bold rounded-full bg-white hover:bg-black/[0.03] border border-black/8 text-cyber-text hover:text-cyber-blue transition-colors shadow-sm animate-fade-in"
                 >
                   {q.text}
                 </button>
@@ -249,7 +249,7 @@ export default function AiChatWidget() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask about stack, timeline, AI, performance…"
-              className="flex-1 px-3.5 py-2 text-xs bg-white border border-black/8 rounded-xl text-cyber-text placeholder:text-cyber-muted/40 focus:outline-none focus:border-cyber-blue/30 transition-colors font-mono"
+              className="flex-1 px-4 py-2.5 text-sm bg-white border border-black/8 rounded-xl text-cyber-text placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-blue/30 transition-colors font-mono font-semibold"
             />
             <button
               type="submit"

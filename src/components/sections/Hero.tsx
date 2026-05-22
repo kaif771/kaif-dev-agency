@@ -80,17 +80,17 @@ export default function Hero() {
             <div className="absolute -bottom-40 right-10 h-72 w-72 rounded-full bg-cyber-green/8 blur-3xl" />
           </div>
 
-          <div data-reveal className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-black/[0.02] px-3 py-1.5">
+          <div data-reveal className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-black/[0.02] px-3.5 py-2">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-cyber-green opacity-25" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-cyber-green" />
             </span>
-            <span className="font-mono text-[10px] tracking-[0.28em] text-cyber-muted uppercase">
+            <span className="font-mono text-xs sm:text-sm tracking-[0.18em] text-cyber-text font-bold uppercase">
               Accepting two builds · May 2026
             </span>
           </div>
 
-          <h1 className="mt-6 text-3xl sm:text-4xl lg:text-[44px] font-bold leading-[1.12] tracking-[-0.03em] text-cyber-text">
+          <h1 className="mt-6 text-4xl sm:text-5xl lg:text-[54px] font-black leading-[1.1] tracking-[-0.03em] text-cyber-text">
             <TextReveal
               as="span"
               text="Premium product engineering for modern web + AI"
@@ -103,7 +103,7 @@ export default function Hero() {
 
           <p
             data-reveal
-            className="mt-6 max-w-xl text-sm sm:text-base leading-relaxed text-cyber-muted"
+            className="mt-6 max-w-xl text-base sm:text-[18px] leading-relaxed text-cyber-text font-medium"
           >
             Kaif Dev Agency is a lean engineering studio. We design systems, ship code, and optimize
             the details that decide performance, polish, and conversion.
@@ -113,7 +113,7 @@ export default function Hero() {
             <Magnetic className="inline-block">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 rounded-2xl bg-cyber-blue px-6 py-3.5 text-sm font-semibold text-white transition-transform duration-300 hover:brightness-105"
+                className="inline-flex items-center gap-2 rounded-2xl bg-cyber-blue px-6 py-3.5 text-base font-semibold text-white transition-transform duration-300 hover:brightness-105"
               >
                 Start a project <ArrowRight className="h-4 w-4" />
               </a>
@@ -121,12 +121,12 @@ export default function Hero() {
 
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 rounded-2xl border border-black/8 bg-white px-6 py-3.5 text-sm font-semibold text-cyber-text transition-colors hover:bg-black/[0.03]"
+              className="inline-flex items-center gap-2 rounded-2xl border border-black/8 bg-white px-6 py-3.5 text-base font-semibold text-cyber-text transition-colors hover:bg-black/[0.03]"
             >
               View case studies
             </a>
 
-            <div className="hidden sm:flex items-center gap-2 text-xs font-mono tracking-[0.22em] text-cyber-muted">
+            <div className="hidden sm:flex items-center gap-2 text-sm font-mono tracking-[0.15em] text-cyber-text font-bold">
               <CheckCircle2 className="h-4 w-4 text-cyber-green" />
               <span>App Router · Tailwind · TypeScript</span>
             </div>
@@ -134,27 +134,27 @@ export default function Hero() {
 
           {/* Metrics */}
           <div data-reveal className="mt-10 grid grid-cols-3 gap-3 sm:gap-4">
-            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4">
-              <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
+            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4 shadow-sm">
+              <div className="text-4xl font-black tracking-[-0.02em] text-cyber-text">
                 <Counter to={99} suffix="+" />
               </div>
-              <div className="mt-1 font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
+              <div className="mt-1.5 font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-text">
                 LIGHTHOUSE
               </div>
             </div>
-            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4">
-              <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
+            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4 shadow-sm">
+              <div className="text-4xl font-black tracking-[-0.02em] text-cyber-text">
                 <Counter to={120} suffix="ms" />
               </div>
-              <div className="mt-1 font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
+              <div className="mt-1.5 font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-text">
                 API P95
               </div>
             </div>
-            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4">
-              <div className="text-2xl font-bold tracking-[-0.02em] text-cyber-text">
+            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4 shadow-sm">
+              <div className="text-4xl font-black tracking-[-0.02em] text-cyber-text">
                 <Counter to={0} />
               </div>
-              <div className="mt-1 font-mono text-[10px] tracking-[0.32em] text-cyber-muted">
+              <div className="mt-1.5 font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-text">
                 CRASHES
               </div>
             </div>
@@ -172,42 +172,42 @@ export default function Hero() {
           </div>
 
           <Tilt className="relative" maxRotate={5}>
-            <div data-hero-panel data-parallax className="rounded-2xl border border-black/8 bg-black/[0.04] overflow-hidden">
+            <div data-hero-panel data-parallax className="rounded-2xl border border-black/8 bg-black/[0.04] overflow-hidden shadow-sm">
               <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
                 <div className="flex items-center gap-2">
                   <span className="h-2.5 w-2.5 rounded-full bg-cyber-blue/70" />
                   <span className="h-2.5 w-2.5 rounded-full bg-black/20" />
                   <span className="h-2.5 w-2.5 rounded-full bg-cyber-green/70" />
                 </div>
-                <div className="font-mono text-[10px] tracking-[0.28em] text-cyber-muted">
+                <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text">
                   terminal · build
                 </div>
               </div>
 
-              <div className="px-4 py-4 font-mono text-[12px] leading-relaxed text-cyber-muted">
-                <div className="text-cyber-text">$ pnpm ship --target=prod</div>
+              <div className="px-5 py-5 font-mono text-sm leading-relaxed text-cyber-muted font-medium">
+                <div className="text-cyber-text font-semibold">$ pnpm ship --target=prod</div>
                 <div className="mt-2">→ compiling routes…</div>
                 <div>→ optimizing bundles…</div>
-                <div className="text-cyber-green mt-2">✓ build stable</div>
+                <div className="text-cyber-green mt-2 font-bold">✓ build stable</div>
                 <div className="text-cyber-muted">✓ checks: types · lint · perf</div>
-                <div className="mt-3 flex items-center gap-2 text-cyber-muted">
+                <div className="mt-3.5 flex items-center gap-2 text-cyber-muted">
                   <Terminal className="h-4 w-4 text-cyber-blue" />
-                  <span className="tracking-[0.22em] text-[10px]">READY · localhost:5000</span>
+                  <span className="tracking-[0.15em] text-xs sm:text-sm font-bold text-cyber-text">READY · localhost:5000</span>
                 </div>
               </div>
             </div>
           </Tilt>
 
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <div data-hero-panel className="rounded-2xl border border-black/8 bg-white/70 p-4" data-parallax>
-              <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">STACK</div>
-              <div className="mt-2 text-sm font-semibold text-cyber-text">Next.js · TS · DB</div>
-              <div className="mt-1 text-xs text-cyber-muted">App Router, clean APIs, typed data.</div>
+            <div data-hero-panel className="rounded-2xl border border-black/8 bg-white/70 p-4 shadow-sm" data-parallax>
+              <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text">STACK</div>
+              <div className="mt-2 text-base font-bold text-cyber-text">Next.js · TS · DB</div>
+              <div className="mt-1 text-base text-cyber-text font-medium">App Router, clean APIs, typed data.</div>
             </div>
-            <div data-hero-panel className="rounded-2xl border border-black/8 bg-white/70 p-4" data-parallax>
-              <div className="font-mono text-[10px] tracking-[0.32em] text-cyber-muted">MOTION</div>
-              <div className="mt-2 text-sm font-semibold text-cyber-text">GSAP · Lenis</div>
-              <div className="mt-1 text-xs text-cyber-muted">Scroll reveals with cleanup.</div>
+            <div data-hero-panel className="rounded-2xl border border-black/8 bg-white/70 p-4 shadow-sm" data-parallax>
+              <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text">MOTION</div>
+              <div className="mt-2 text-base font-bold text-cyber-text">GSAP · Lenis</div>
+              <div className="mt-1 text-base text-cyber-text font-medium">Scroll reveals with cleanup.</div>
             </div>
           </div>
         </div>
@@ -227,7 +227,7 @@ export default function Hero() {
             ].map((t) => (
               <span
                 key={t}
-                className="font-mono text-[11px] tracking-[0.32em] text-cyber-muted"
+                className="font-mono text-xs sm:text-sm tracking-[0.2em] text-cyber-text font-semibold"
               >
                 {t}
                 <span className="ml-10 text-cyber-blue/60">•</span>
@@ -245,7 +245,7 @@ export default function Hero() {
             ].map((t) => (
               <span
                 key={`dup-${t}`}
-                className="font-mono text-[11px] tracking-[0.32em] text-cyber-muted"
+                className="font-mono text-xs sm:text-sm tracking-[0.2em] text-cyber-text font-semibold"
               >
                 {t}
                 <span className="ml-10 text-cyber-blue/60">•</span>
