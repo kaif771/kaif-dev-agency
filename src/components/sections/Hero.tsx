@@ -1,21 +1,13 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState } from "react";
-import { ArrowRight, CheckCircle2, Terminal, Sparkles, RefreshCw } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowRight, Terminal as TerminalIcon, Sparkles, RefreshCw, Cpu, Database, Eye } from "lucide-react";
 import Magnetic from "@/components/motion/Magnetic";
-import Tilt from "@/components/motion/Tilt";
 import Counter from "@/components/motion/Counter";
 import TextReveal from "@/components/motion/TextReveal";
-import { useRevealOnScroll } from "@/lib/motion/useRevealOnScroll";
-import { usePrefersReducedMotion } from "@/lib/motion/usePrefersReducedMotion";
-import { getGsap } from "@/lib/motion/gsap";
 
 export default function Hero() {
-  const prefersReducedMotion = usePrefersReducedMotion();
-
-  const scopeRef = useRef<HTMLElement | null>(null);
-  const rightColRef = useRef<HTMLDivElement | null>(null);
-
+  const [visualMode, setVisualMode] = useState<"terminal" | "studio">("terminal");
   const [aiOptimizeData, setAiOptimizeData] = useState<{
     command: string;
     trace: string[];
@@ -24,6 +16,11 @@ export default function Hero() {
   } | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState<"general" | "stack" | "motion" | null>(null);
+
+  // Studio IDE interactive state
+  const [activeFile, setActiveFile] = useState("HealthcareAi.tsx");
+  const [ideLog, setIdeLog] = useState<string | null>(null);
+  const [isIdeLoading, setIsIdeLoading] = useState(false);
 
   const handleAiOptimize = async (category: "general" | "stack" | "motion" = "general") => {
     setIsAiLoading(true);
@@ -70,389 +67,397 @@ export default function Hero() {
     setActiveCategory(null);
   };
 
-  useRevealOnScroll(scopeRef, {
-    selector: "[data-reveal]",
-    y: 20,
-    start: "top 88%",
-    duration: 1.0,
-    stagger: 0.09,
-    once: true,
-  });
+  const openStudioAssistant = () => {
+    window.dispatchEvent(new CustomEvent("open-studio-assistant"));
+  };
 
-  useLayoutEffect(() => {
-    const scope = scopeRef.current;
-    const right = rightColRef.current;
-    if (!scope || !right) return;
-    if (prefersReducedMotion) return;
-
-    const { gsap } = getGsap();
-
-    const ctx = gsap.context(() => {
-      const panels = gsap.utils.toArray<HTMLElement>("[data-hero-panel]");
-      if (panels.length) {
-        gsap.fromTo(
-          panels,
-          { opacity: 0, y: 18 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            stagger: 0.08,
-            delay: 0.1,
-            clearProps: "transform",
-          }
-        );
+  const handleIdeTrigger = (action: string) => {
+    setIsIdeLoading(true);
+    setIdeLog(null);
+    setTimeout(() => {
+      setIsIdeLoading(false);
+      if (action === "healthcare") {
+        setIdeLog("✓ Database connection active. REDAX PHI filters compiled (100% HIPAA compliant).");
+      } else if (action === "telemetry") {
+        setIdeLog("✓ GeoJSON points loaded. Computed bucket queries in ~240ms with index boundary.");
       }
-
-      // Micro parallax on scroll (kept minimal to avoid jitter).
-      const parallax = gsap.utils.toArray<HTMLElement>("[data-parallax]");
-      parallax.forEach((el, index) => {
-        gsap.to(el, {
-          y: -18 - index * 8,
-          ease: "none",
-          scrollTrigger: {
-            trigger: scope,
-            start: "top top",
-            end: "+=520",
-            scrub: 0.8,
-          },
-        });
-      });
-    }, right);
-
-    return () => ctx.revert();
-  }, [prefersReducedMotion]);
+    }, 1000);
+  };
 
   return (
-    <section ref={scopeRef} id="top" className="pt-28 sm:pt-32">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-        {/* Left: cinematic headline + CTA */}
-        <div className="lg:col-span-7 glass-panel rounded-3xl p-7 sm:p-10 border-black/8 relative overflow-hidden">
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute -top-24 left-1/2 h-56 w-[820px] -translate-x-1/2 rounded-full bg-cyber-blue/10 blur-3xl" />
-            <div className="absolute -bottom-40 right-10 h-72 w-72 rounded-full bg-cyber-green/8 blur-3xl" />
-          </div>
+    <section id="top" className="pt-32 sm:pt-36 pb-16 font-sans">
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 flex flex-col items-center">
+        
+        {/* Cinematic Announcement Badge */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-black/6 bg-slate-50 px-4 py-2 select-none shadow-sm">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-cyber-green opacity-30 animate-pulse" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-cyber-green" />
+          </span>
+          <span className="font-mono text-xs tracking-[0.18em] text-cyber-text font-bold uppercase">
+            Accepting two builds · Summer 2026
+          </span>
+        </div>
 
-          <div data-reveal className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-black/[0.02] px-3.5 py-2">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-cyber-green opacity-25" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-cyber-green" />
-            </span>
-            <span className="font-mono text-xs sm:text-sm tracking-[0.18em] text-cyber-text font-bold uppercase">
-              Accepting two builds · May 2026
-            </span>
-          </div>
+        {/* Confident Headings */}
+        <h1 className="mt-8 text-4xl sm:text-6xl lg:text-[72px] font-black leading-[1.05] tracking-[-0.03em] text-cyber-text text-center max-w-4xl">
+          <TextReveal
+            as="span"
+            text="Premium Product Engineering."
+            className="block"
+            delay={0.02}
+            stagger={0.045}
+            trigger="mount"
+          />
+        </h1>
 
-          <h1 className="mt-6 text-4xl sm:text-5xl lg:text-[54px] font-black leading-[1.1] tracking-[-0.03em] text-cyber-text">
-            <TextReveal
-              as="span"
-              text="Premium product engineering for modern web + AI"
-              className="block"
-              delay={0.02}
-              stagger={0.045}
-              trigger="mount"
-            />
-          </h1>
+        <p className="mt-6 text-lg sm:text-xl text-cyber-muted font-medium text-center max-w-2xl leading-relaxed">
+          A full-stack systems studio for modern web + AI. Leaning engineering, robust logic, exceptional polish.
+        </p>
 
-          <p
-            data-reveal
-            className="mt-6 max-w-xl text-base sm:text-[18px] leading-relaxed text-cyber-text font-medium"
+        {/* Pill CTAs & Assistant Trigger */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            onClick={() => setVisualMode(visualMode === "terminal" ? "studio" : "terminal")}
+            className="inline-flex items-center gap-2 rounded-full bg-black text-white hover:bg-black/90 px-6.5 py-3.5 text-base font-semibold transition-all duration-300 shadow-md cursor-pointer active:scale-95"
           >
-            Kaif Dev Agency is a lean engineering studio. We design systems, ship code, and optimize
-            the details that decide performance, polish, and conversion.
-          </p>
+            {visualMode === "terminal" ? "Launch Studio Editor" : "View Terminal Build"}
+            <ArrowRight className="h-4 w-4" />
+          </button>
 
-          <div data-reveal className="mt-9 flex flex-wrap items-center gap-3">
-            <Magnetic className="inline-block">
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-2xl bg-cyber-blue px-6 py-3.5 text-base font-semibold text-white transition-transform duration-300 hover:brightness-105"
-              >
-                Start a project <ArrowRight className="h-4 w-4" />
-              </a>
-            </Magnetic>
-
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-2xl border border-black/8 bg-white px-6 py-3.5 text-base font-semibold text-cyber-text transition-colors hover:bg-black/[0.03]"
-            >
-              View case studies
-            </a>
-
-            <div className="hidden sm:flex items-center gap-2 text-sm font-mono tracking-[0.15em] text-cyber-text font-bold">
-              <CheckCircle2 className="h-4 w-4 text-cyber-green" />
-              <span>App Router · Tailwind · TypeScript</span>
-            </div>
-          </div>
-
-          {/* Metrics */}
-          <div data-reveal className="mt-10 grid grid-cols-3 gap-3 sm:gap-4">
-            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4 shadow-sm">
-              <div className="text-4xl font-black tracking-[-0.02em] text-cyber-text">
-                <Counter to={99} suffix="+" />
-              </div>
-              <div className="mt-1.5 font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-text">
-                LIGHTHOUSE
-              </div>
-            </div>
-            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4 shadow-sm">
-              <div className="text-4xl font-black tracking-[-0.02em] text-cyber-text">
-                <Counter to={120} suffix="ms" />
-              </div>
-              <div className="mt-1.5 font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-text">
-                API P95
-              </div>
-            </div>
-            <div className="rounded-2xl border border-black/8 bg-white/70 px-4 py-4 shadow-sm">
-              <div className="text-4xl font-black tracking-[-0.02em] text-cyber-text">
-                <Counter to={0} />
-              </div>
-              <div className="mt-1.5 font-mono text-xs sm:text-sm tracking-[0.15em] font-bold text-cyber-text">
-                CRASHES
-              </div>
-            </div>
-          </div>
+          <button
+            onClick={openStudioAssistant}
+            className="inline-flex items-center gap-1.5 text-base font-semibold text-cyber-blue hover:text-cyber-blue/80 transition-colors group cursor-pointer"
+          >
+            Studio Assistant
+            <Sparkles className="h-4 w-4 text-cyber-blue group-hover:scale-110 transition-transform animate-pulse" />
+          </button>
         </div>
 
-        {/* Right: terminal panel + floating engineering UI */}
-        <div
-          ref={rightColRef}
-          className="lg:col-span-5 glass-panel rounded-3xl p-6 sm:p-7 border-black/8 relative overflow-hidden"
-        >
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-10 -right-12 h-44 w-44 rounded-full bg-cyber-blue/10 blur-3xl" />
-            <div className="absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-black/[0.02] blur-3xl" />
+        {/* Flagship Visual Canvas - Massive whitespace and width */}
+        <div className="mt-16 w-full max-w-5xl py-4">
+          
+          {/* Visual Container header tabs */}
+          <div className="w-full bg-[#fcfcfd] border border-black/8 rounded-t-2xl px-5 py-3 flex items-center justify-between shadow-sm">
+            <div className="flex items-center gap-1.5 select-none">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+              <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
+            </div>
+            
+            {/* Display View Tabs */}
+            <div className="flex gap-1.5 bg-black/[0.03] p-0.5 rounded-lg border border-black/5 font-mono text-[10px] sm:text-xs">
+              <button
+                onClick={() => setVisualMode("terminal")}
+                className={`px-3 py-1.5 rounded-md font-bold transition flex items-center gap-1 cursor-pointer ${
+                  visualMode === "terminal"
+                    ? "bg-white text-cyber-blue shadow-sm border border-black/5"
+                    : "text-cyber-muted hover:text-black"
+                }`}
+              >
+                <TerminalIcon className="h-3 w-3" />
+                terminal.sh
+              </button>
+              <button
+                onClick={() => setVisualMode("studio")}
+                className={`px-3 py-1.5 rounded-md font-bold transition flex items-center gap-1 cursor-pointer ${
+                  visualMode === "studio"
+                    ? "bg-white text-cyber-blue shadow-sm border border-black/5"
+                    : "text-cyber-muted hover:text-black"
+                }`}
+              >
+                <Eye className="h-3 w-3" />
+                Kaif Studio IDE
+              </button>
+            </div>
+
+            <div className="font-mono text-[10px] tracking-widest text-cyber-muted font-bold uppercase select-none">
+              {visualMode === "terminal" ? "build · log" : "live · preview"}
+            </div>
           </div>
 
-          <Tilt className="relative" maxRotate={5}>
-            <div data-hero-panel data-parallax className="rounded-2xl border border-black/8 bg-black/[0.04] overflow-hidden shadow-sm flex flex-col">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-black/8 bg-black/[0.02]">
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-cyber-blue/70" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-black/20" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-cyber-green/70" />
-                </div>
-                <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text">
-                  terminal · build
-                </div>
-              </div>
-
-              <div className="px-5 py-5 font-mono text-sm leading-relaxed text-cyber-muted font-medium min-h-[175px]">
-                {isAiLoading ? (
-                  <div className="space-y-2 animate-pulse">
-                    <div className="text-cyber-text font-bold">
-                      $ pnpm ship --optimize-{activeCategory === "stack" ? "stack" : activeCategory === "motion" ? "motion" : "general"}
-                    </div>
-                    <div className="text-cyber-blue font-bold flex items-center gap-1.5 mt-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyber-blue animate-ping"></span>
-                      → consulting Google Gemini AI...
-                    </div>
-                    {activeCategory === "stack" ? (
-                      <>
-                        <div className="text-gray-400">→ auditing database indexing strategy...</div>
-                        <div className="text-gray-400">→ verifying serialization boundaries...</div>
-                      </>
-                    ) : activeCategory === "motion" ? (
-                      <>
-                        <div className="text-gray-400">→ profiling main thread animation contexts...</div>
-                        <div className="text-gray-400">→ inspecting ScrollTrigger garbage collection...</div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="text-gray-400">→ parsing bundle optimization paths...</div>
-                        <div className="text-gray-400">→ optimizing component boundaries...</div>
-                      </>
-                    )}
-                  </div>
-                ) : aiOptimizeData ? (
-                  <div className="space-y-2">
-                    <div className="text-cyber-text font-bold flex items-center justify-between">
-                      <span>$ pnpm ship --{aiOptimizeData.command}</span>
-                      <span className="text-[9px] sm:text-[10px] text-cyber-green border border-cyber-green/30 bg-cyber-green/5 px-2 py-0.5 rounded-md font-mono font-bold tracking-wider">
-                        {aiOptimizeData.offline ? "SIMULATED AI" : "LIVE GEMINI"}
-                      </span>
-                    </div>
-                    
-                    <div className="mt-2 space-y-1">
-                      {aiOptimizeData.trace.map((line, idx) => (
-                        <div
-                          key={idx}
-                          className={
-                            line.startsWith("✓")
-                              ? "text-cyber-green font-bold"
-                              : line.startsWith("✗")
-                              ? "text-red-500 font-bold"
-                              : "text-cyber-muted"
-                          }
-                        >
-                          {line}
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <div className="border-t border-black/8 pt-3 mt-3">
-                      <div className="text-cyber-blue font-bold text-xs uppercase tracking-wider flex items-center gap-1 font-sans">
-                        <Sparkles className="h-3.5 w-3.5 text-cyber-blue" />
-                        GEMINI COMPILED ADVICE:
-                      </div>
-                      <p className="text-cyber-text text-sm font-semibold mt-1 leading-normal">
-                        {aiOptimizeData.recommendation}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    <div className="text-cyber-text font-semibold">$ pnpm ship --target=prod</div>
-                    <div className="mt-2">→ compiling routes…</div>
-                    <div>→ optimizing bundles…</div>
-                    <div className="text-cyber-green mt-2 font-bold">✓ build stable</div>
-                    <div className="text-cyber-muted">✓ checks: types · lint · perf</div>
-                    <div className="mt-3.5 flex items-center gap-2 text-cyber-muted">
-                      <Terminal className="h-4 w-4 text-cyber-blue" />
-                      <span className="tracking-[0.15em] text-xs sm:text-sm font-bold text-cyber-text">READY · localhost:5000</span>
-                    </div>
-                  </div>
-                )}
-              </div>
- 
-              <div className="flex border-t border-black/8 bg-black/[0.02] p-2 gap-2">
-                {aiOptimizeData ? (
-                  <button
-                    onClick={handleResetTerminal}
-                    className="flex-1 py-2 px-3 text-xs font-bold font-mono rounded-xl bg-white hover:bg-black/[0.03] border border-black/8 text-cyber-text flex items-center justify-center gap-1.5 transition active:scale-[0.98]"
-                  >
-                    <RefreshCw className="h-3.5 w-3.5" />
-                    Reset Compiler
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleAiOptimize("general")}
-                    disabled={isAiLoading}
-                    className="flex-1 py-2 px-3 text-xs font-bold font-mono rounded-xl bg-cyber-blue hover:brightness-105 text-white flex items-center justify-center gap-1.5 transition shadow-sm disabled:opacity-50 active:scale-[0.98]"
-                  >
-                    <Sparkles className="h-3.5 w-3.5 animate-pulse" />
-                    Optimize with Gemini AI
-                  </button>
-                )}
-              </div>
-            </div>
-          </Tilt>
- 
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            {/* STACK Card (Interactive AI Audit) */}
-            <button
-              onClick={() => !isAiLoading && handleAiOptimize("stack")}
-              disabled={isAiLoading}
-              className={`text-left rounded-2xl border p-4 shadow-sm transition-all duration-300 active:scale-[0.98] cursor-pointer group relative overflow-hidden flex flex-col justify-between ${
-                activeCategory === "stack"
-                  ? "border-cyber-blue bg-cyber-blue/[0.03] ring-1 ring-cyber-blue/20"
-                  : "border-black/8 bg-white/70 hover:border-cyber-blue/30 hover:bg-cyber-blue/[0.01]"
-              }`}
-              data-hero-panel
-              data-parallax
-            >
-              {/* Premium Gradient Accent on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-cyber-blue/0 via-cyber-blue/0 to-cyber-blue/[0.04] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+          {/* VIEW A: Compiler Terminal Mode */}
+          {visualMode === "terminal" && (
+            <div className="w-full bg-white border-x border-b border-black/8 rounded-b-2xl shadow-lg flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-black/8 overflow-hidden min-h-[380px]">
               
-              <div className="w-full">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs tracking-[0.18em] font-bold text-cyber-text">STACK</span>
-                  <span className={`font-mono text-[9px] font-bold tracking-wider px-1.5 py-0.5 rounded transition ${
+              {/* Terminal Code logs pane */}
+              <div className="flex-1 p-6 font-mono text-sm leading-relaxed text-cyber-muted bg-white min-h-[260px] flex flex-col justify-between">
+                <div>
+                  {isAiLoading ? (
+                    <div className="space-y-2.5 animate-pulse">
+                      <div className="text-cyber-text font-bold">
+                        $ pnpm ship --optimize-{activeCategory || "general"}
+                      </div>
+                      <div className="text-cyber-blue font-bold flex items-center gap-1.5 mt-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyber-blue animate-ping"></span>
+                        → consulting Google Gemini AI...
+                      </div>
+                      <div className="text-gray-400">→ parsing bundle optimization bounds...</div>
+                    </div>
+                  ) : aiOptimizeData ? (
+                    <div className="space-y-2.5">
+                      <div className="text-cyber-text font-bold flex items-center justify-between">
+                        <span>$ pnpm ship --{aiOptimizeData.command}</span>
+                        <span className="text-[9px] text-cyber-green border border-cyber-green/30 bg-cyber-green/5 px-2 py-0.5 rounded font-mono font-bold tracking-wider uppercase">
+                          {aiOptimizeData.offline ? "SIMULATED AI" : "LIVE GEMINI"}
+                        </span>
+                      </div>
+                      
+                      <div className="mt-2 space-y-1">
+                        {aiOptimizeData.trace.map((line, idx) => (
+                          <div
+                            key={idx}
+                            className={
+                              line.startsWith("✓")
+                                ? "text-cyber-green font-bold"
+                                : line.startsWith("✗")
+                                ? "text-red-500 font-bold"
+                                : "text-cyber-muted"
+                            }
+                          >
+                            {line}
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="border-t border-black/8 pt-3 mt-3">
+                        <div className="text-cyber-blue font-bold text-xs uppercase tracking-wider flex items-center gap-1 font-sans">
+                          <Sparkles className="h-3.5 w-3.5 text-cyber-blue" />
+                          GEMINI COMPILED ADVICE:
+                        </div>
+                        <p className="text-cyber-text text-sm font-semibold mt-1 leading-normal font-sans">
+                          {aiOptimizeData.recommendation}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="text-cyber-text font-semibold">$ pnpm ship --target=prod</div>
+                      <div className="mt-2">→ compiling routes…</div>
+                      <div>→ optimizing bundles…</div>
+                      <div className="text-cyber-green mt-2 font-bold">✓ build stable</div>
+                      <div className="text-cyber-muted">✓ checks: types · lint · perf</div>
+                      <div className="mt-4 flex items-center gap-2 text-cyber-muted">
+                        <TerminalIcon className="h-4 w-4 text-cyber-blue" />
+                        <span className="tracking-[0.15em] text-xs sm:text-sm font-bold text-cyber-text">READY · localhost:5000</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-black/5 flex gap-2">
+                  {aiOptimizeData ? (
+                    <button
+                      onClick={handleResetTerminal}
+                      className="w-full py-2.5 px-4 text-xs font-bold font-mono rounded-xl bg-slate-50 hover:bg-black/[0.03] border border-black/8 text-cyber-text flex items-center justify-center gap-1.5 transition cursor-pointer"
+                    >
+                      <RefreshCw className="h-3.5 w-3.5" />
+                      Reset Compiler
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleAiOptimize("general")}
+                      disabled={isAiLoading}
+                      className="w-full py-2.5 px-4 text-xs font-bold font-mono rounded-xl bg-black text-white hover:bg-black/90 flex items-center justify-center gap-1.5 transition shadow-sm disabled:opacity-50 cursor-pointer"
+                    >
+                      <Sparkles className="h-3.5 w-3.5 animate-pulse" />
+                      Optimize with Gemini AI
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Quick AI Audit Cards panel */}
+              <div className="w-full md:w-[260px] p-6 bg-slate-50/50 flex flex-col gap-3 select-none">
+                <p className="text-[10px] text-cyber-muted font-mono font-bold tracking-wider uppercase">Interactive Audits</p>
+                
+                <button
+                  onClick={() => !isAiLoading && handleAiOptimize("stack")}
+                  disabled={isAiLoading}
+                  className={`text-left rounded-xl border p-4 transition-all duration-300 flex flex-col justify-between cursor-pointer ${
                     activeCategory === "stack"
-                      ? "text-cyber-blue bg-cyber-blue/10"
-                      : "text-cyber-muted group-hover:text-cyber-blue bg-black/[0.03] group-hover:bg-cyber-blue/5"
-                  }`}>
-                    {activeCategory === "stack" ? "⚡ ACTIVE" : "✨ AI AUDIT"}
-                  </span>
-                </div>
-                <div className="mt-2 text-base font-bold text-cyber-text group-hover:text-cyber-blue transition-colors">
-                  Next.js · TS · DB
-                </div>
-                <div className="mt-1 text-xs sm:text-sm text-cyber-text font-medium leading-snug">
-                  App Router, clean APIs, typed data.
-                </div>
-              </div>
-            </button>
+                      ? "border-cyber-blue bg-white shadow-sm ring-1 ring-cyber-blue/10"
+                      : "border-black/6 bg-white hover:border-cyber-blue/30"
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[9px] tracking-widest font-bold text-cyber-text">STACK</span>
+                      <span className="text-[8px] font-bold text-cyber-blue bg-cyber-blue/5 px-1 py-0.5 rounded">AI AUDIT</span>
+                    </div>
+                    <div className="mt-2 text-sm font-bold text-cyber-text">Next.js · TS · DB</div>
+                    <p className="mt-1 text-[11px] text-cyber-muted font-medium leading-snug">App Router, typed database contracts.</p>
+                  </div>
+                </button>
 
-            {/* MOTION Card (Interactive AI Audit) */}
-            <button
-              onClick={() => !isAiLoading && handleAiOptimize("motion")}
-              disabled={isAiLoading}
-              className={`text-left rounded-2xl border p-4 shadow-sm transition-all duration-300 active:scale-[0.98] cursor-pointer group relative overflow-hidden flex flex-col justify-between ${
-                activeCategory === "motion"
-                  ? "border-cyber-green bg-cyber-green/[0.03] ring-1 ring-cyber-green/20"
-                  : "border-black/8 bg-white/70 hover:border-cyber-green/30 hover:bg-cyber-green/[0.01]"
-              }`}
-              data-hero-panel
-              data-parallax
-            >
-              {/* Premium Gradient Accent on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-cyber-green/0 via-cyber-green/0 to-cyber-green/[0.04] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-              <div className="w-full">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs tracking-[0.18em] font-bold text-cyber-text">MOTION</span>
-                  <span className={`font-mono text-[9px] font-bold tracking-wider px-1.5 py-0.5 rounded transition ${
+                <button
+                  onClick={() => !isAiLoading && handleAiOptimize("motion")}
+                  disabled={isAiLoading}
+                  className={`text-left rounded-xl border p-4 transition-all duration-300 flex flex-col justify-between cursor-pointer ${
                     activeCategory === "motion"
-                      ? "text-cyber-green bg-cyber-green/10"
-                      : "text-cyber-muted group-hover:text-cyber-green bg-black/[0.03] group-hover:bg-cyber-green/5"
-                  }`}>
-                    {activeCategory === "motion" ? "⚡ ACTIVE" : "✨ AI AUDIT"}
-                  </span>
-                </div>
-                <div className="mt-2 text-base font-bold text-cyber-text group-hover:text-cyber-green transition-colors">
-                  GSAP · Lenis
-                </div>
-                <div className="mt-1 text-xs sm:text-sm text-cyber-text font-medium leading-snug">
-                  Scroll reveals with cleanup.
+                      ? "border-cyber-green bg-white shadow-sm ring-1 ring-cyber-green/10"
+                      : "border-black/6 bg-white hover:border-cyber-blue/30"
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[9px] tracking-widest font-bold text-cyber-text">MOTION</span>
+                      <span className="text-[8px] font-bold text-cyber-green bg-cyber-green/5 px-1 py-0.5 rounded">AI AUDIT</span>
+                    </div>
+                    <div className="mt-2 text-sm font-bold text-cyber-text">GSAP · Lenis</div>
+                    <p className="mt-1 text-[11px] text-cyber-muted font-medium leading-snug">Scroll hooks with memory cleanup cycles.</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* VIEW B: Simulated Studio IDE Sandbox Mode */}
+          {visualMode === "studio" && (
+            <div className="w-full bg-white border-x border-b border-black/8 rounded-b-2xl shadow-lg flex divide-x divide-black/8 overflow-hidden min-h-[380px] font-mono text-xs">
+              
+              {/* Left pane: Explorer files tree */}
+              <div className="w-[180px] hidden sm:flex flex-col bg-slate-50/50 p-4 text-cyber-muted select-none">
+                <span className="text-[9px] font-mono font-bold tracking-widest uppercase mb-3">WORKSPACE</span>
+                
+                <div className="space-y-2 font-medium">
+                  <div className="text-[11px] font-bold">📁 src</div>
+                  <div className="pl-3 space-y-1.5">
+                    <div className="text-[11px] font-bold">📁 sections</div>
+                    <div className="pl-3 space-y-1">
+                      <button
+                        onClick={() => setActiveFile("HealthcareAi.tsx")}
+                        className={`block text-left w-full truncate cursor-pointer hover:text-black ${
+                          activeFile === "HealthcareAi.tsx" ? "text-cyber-blue font-bold" : ""
+                        }`}
+                      >
+                        ✨ HealthcareAi.tsx
+                      </button>
+                      <button
+                        onClick={() => setActiveFile("SmartTelemetry.tsx")}
+                        className={`block text-left w-full truncate cursor-pointer hover:text-black ${
+                          activeFile === "SmartTelemetry.tsx" ? "text-cyber-blue font-bold" : ""
+                        }`}
+                      >
+                        ✨ SmartTelemetry.tsx
+                      </button>
+                    </div>
+                  </div>
+                  <div className="text-[11px] text-gray-400">⚙️ next.config.ts</div>
+                  <div className="text-[11px] text-gray-400">📄 package.json</div>
                 </div>
               </div>
-            </button>
-          </div>
-        </div>
-      </div>
 
-      {/* Marquee */}
-      <div data-reveal className="mt-6 glass-panel rounded-2xl border-black/8 overflow-hidden">
-        <div className="flex whitespace-nowrap">
-          <div className="marquee flex items-center gap-10 px-6 py-4">
-            {[
-              "ENGINEERING",
-              "APP ROUTER",
-              "PERFORMANCE",
-              "AI INTEGRATIONS",
-              "DESIGN SYSTEMS",
-              "SHIP",
-            ].map((t) => (
-              <span
-                key={t}
-                className="font-mono text-xs sm:text-sm tracking-[0.2em] text-cyber-text font-semibold"
-              >
-                {t}
-                <span className="ml-10 text-cyber-blue/60">•</span>
-              </span>
-            ))}
+              {/* Center pane: Code editor */}
+              <div className="flex-1 p-5 flex flex-col justify-between bg-white text-left leading-relaxed text-cyber-muted">
+                <div className="overflow-x-auto">
+                  <div className="border-b border-black/5 pb-2 mb-3 flex items-center justify-between text-[10px] text-gray-400 select-none">
+                    <span>Active File: src/sections/{activeFile}</span>
+                    <span>UTF-8 · TypeScript</span>
+                  </div>
+
+                  {activeFile === "HealthcareAi.tsx" ? (
+                    <pre className="text-[11px]">
+                      <span className="text-purple-600 font-bold">import</span> React <span className="text-purple-600 font-bold">from</span> <span className="text-teal-600">"react"</span>;<br />
+                      <span className="text-purple-600 font-bold">import</span> &#123; GeminiAI &#125; <span className="text-purple-600 font-bold">from</span> <span className="text-teal-600">"@google/genai"</span>;<br /><br />
+                      <span className="text-purple-600 font-bold">export default function</span> <span className="text-blue-600">HealthcareAI</span>() &#123;<br />
+                      &nbsp;&nbsp;<span className="text-gray-400">// Strict PHI Sanitization Pipeline</span><br />
+                      &nbsp;&nbsp;<span className="text-purple-600 font-bold">const</span> sanitize = (payload) =&gt; redax(payload);<br /><br />
+                      &nbsp;&nbsp;<span className="text-purple-600 font-bold">return</span> &lt;<span className="text-blue-600 font-bold">clinical-guard</span> /&gt;;<br />
+                      &#125;
+                    </pre>
+                  ) : (
+                    <pre className="text-[11px]">
+                      <span className="text-purple-600 font-bold">import</span> &#123; Database &#125; <span className="text-purple-600 font-bold">from</span> <span className="text-teal-600">"mongodb"</span>;<br /><br />
+                      <span className="text-purple-600 font-bold">export async function</span> <span className="text-blue-600">getTelemetry</span>(req) &#123;<br />
+                      &nbsp;&nbsp;<span className="text-gray-400">// Bucketing write queries</span><br />
+                      &nbsp;&nbsp;<span className="text-purple-600 font-bold">const</span> stats = <span className="text-purple-600 font-bold">await</span> db.collection(<span className="text-teal-600">'readings'</span>)<br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;.explain(<span className="text-teal-600">'executionStats'</span>);<br /><br />
+                      &nbsp;&nbsp;<span className="text-purple-600 font-bold">return</span> Response.json(stats);<br />
+                      &#125;
+                    </pre>
+                  )}
+                </div>
+
+                {/* Simulated compile logs output */}
+                <div className="border-t border-black/8 pt-3 mt-4">
+                  <div className="text-[10px] text-cyber-blue font-bold tracking-wider mb-1 flex items-center gap-1 font-sans">
+                    <Sparkles className="h-3 w-3 animate-pulse" />
+                    SIMULATED STUDIO PREVIEW OUTPUT:
+                  </div>
+                  
+                  {isIdeLoading ? (
+                    <div className="text-cyber-muted font-bold animate-pulse text-[11px]">
+                      $ compile --target={activeFile.toLowerCase()}...
+                    </div>
+                  ) : ideLog ? (
+                    <div className="text-cyber-green font-bold text-[11px]">
+                      {ideLog}
+                    </div>
+                  ) : (
+                    <div className="text-gray-400 text-[11px]">
+                      Click an interactive component on the right to simulate live deployment testing.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Right pane: simulated live product outputs */}
+              <div className="w-full md:w-[240px] p-5 bg-slate-50/50 flex flex-col gap-3 shrink-0 select-none">
+                <span className="text-[9px] font-mono font-bold tracking-widest uppercase mb-1">LIVE PREVIEWS</span>
+                
+                {/* Healthcare AI assistant preview */}
+                <div className="border border-black/6 bg-white rounded-xl p-3.5 shadow-sm space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-[11px] text-cyber-text">Healthcare AI</span>
+                    <Cpu className="h-3.5 w-3.5 text-cyber-blue" />
+                  </div>
+                  <p className="text-[10px] text-cyber-muted font-sans font-medium">HIPAA Sanitized clinical compiler assistant dashboard.</p>
+                  <button
+                    onClick={() => handleIdeTrigger("healthcare")}
+                    className="w-full py-1.5 px-2 text-[10px] font-bold rounded-lg bg-cyber-blue hover:brightness-105 text-white transition cursor-pointer text-center"
+                  >
+                    Connect cluster
+                  </button>
+                </div>
+
+                {/* Smart farmingTelemetry preview */}
+                <div className="border border-black/6 bg-white rounded-xl p-3.5 shadow-sm space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-[11px] text-cyber-text">Telemetry Data</span>
+                    <Database className="h-3.5 w-3.5 text-cyber-green" />
+                  </div>
+                  <p className="text-[10px] text-cyber-muted font-sans font-medium">Time-series climate aggregation database pipeline.</p>
+                  <button
+                    onClick={() => handleIdeTrigger("telemetry")}
+                    className="w-full py-1.5 px-2 text-[10px] font-bold rounded-lg border border-black/8 bg-white hover:bg-black/[0.02] text-cyber-text transition cursor-pointer text-center"
+                  >
+                    Learn details
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Spacious, unbordered Horizontal Metrics Grid */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-12 gap-y-4 font-mono text-xs sm:text-sm tracking-[0.2em] font-black text-cyber-text/80 uppercase">
+          <div className="flex items-center gap-2">
+            <span>LIGHTHOUSE</span>
+            <span className="text-cyber-blue">99+</span>
           </div>
-          <div aria-hidden="true" className="marquee flex items-center gap-10 px-6 py-4">
-            {[
-              "ENGINEERING",
-              "APP ROUTER",
-              "PERFORMANCE",
-              "AI INTEGRATIONS",
-              "DESIGN SYSTEMS",
-              "SHIP",
-            ].map((t) => (
-              <span
-                key={`dup-${t}`}
-                className="font-mono text-xs sm:text-sm tracking-[0.2em] text-cyber-text font-semibold"
-              >
-                {t}
-                <span className="ml-10 text-cyber-blue/60">•</span>
-              </span>
-            ))}
+          <span className="text-black/10 hidden sm:inline select-none">•</span>
+          <div className="flex items-center gap-2">
+            <span>API P95</span>
+            <span className="text-cyber-green">120MS</span>
+          </div>
+          <span className="text-black/10 hidden sm:inline select-none">•</span>
+          <div className="flex items-center gap-2">
+            <span>DEPLOYMENTS</span>
+            <span className="text-cyber-blue">DAILY</span>
           </div>
         </div>
+
       </div>
     </section>
   );

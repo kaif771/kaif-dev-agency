@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X, Sparkles } from "lucide-react";
 import Magnetic from "@/components/motion/Magnetic";
 import { useSmoothScroll } from "@/components/motion/SmoothScroll";
 import { usePrefersReducedMotion } from "@/lib/motion/usePrefersReducedMotion";
@@ -9,7 +9,8 @@ import { usePrefersReducedMotion } from "@/lib/motion/usePrefersReducedMotion";
 const LINKS = [
   { label: "Capabilities", href: "#capabilities" },
   { label: "Work", href: "#projects" },
-  { label: "Intake", href: "#contact" },
+  { label: "Studio Assistant", href: "#studio", isDrawerTrigger: true },
+  { label: "Apply", href: "#contact" },
 ];
 
 export default function Navbar() {
@@ -41,11 +42,16 @@ export default function Navbar() {
   }, []);
 
   const handleAnchor = useMemo(() => {
-    return (href: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    return (href: string, isDrawerTrigger?: boolean) => (e: React.MouseEvent<HTMLAnchorElement>) => {
       setIsMobileMenuOpen(false);
-      if (!href.startsWith("#")) return;
-
       e.preventDefault();
+
+      if (isDrawerTrigger) {
+        window.dispatchEvent(new CustomEvent("open-studio-assistant"));
+        return;
+      }
+
+      if (!href.startsWith("#")) return;
 
       const offset = -96;
 
@@ -65,28 +71,28 @@ export default function Navbar() {
     <header className="fixed top-4 left-0 right-0 z-40 px-4">
       <div
         data-scrolled={scrolled ? "true" : "false"}
-        className="mx-auto max-w-7xl glass-panel rounded-3xl md:rounded-full px-5 py-3.5 flex items-center justify-between border-black/8 transition-[background,border-color,border-radius] duration-300 data-[scrolled=true]:border-black/12"
+        className="mx-auto max-w-7xl glass-panel rounded-full px-7 py-3 flex items-center justify-between border-black/8 transition-[background,border-color,border-radius] duration-300 data-[scrolled=true]:border-black/12"
       >
         <a
           href="#top"
           onClick={handleAnchor("#top")}
-          className="flex items-center gap-2 font-mono text-sm sm:text-base tracking-[0.18em] text-cyber-text"
+          className="flex items-center gap-1.5 text-lg tracking-tight font-black text-cyber-text"
           aria-label="Scroll to top"
         >
-          <span className="text-cyber-blue font-bold">{"///"}</span>
-          <span className="font-black">KAIF</span>
-          <span className="text-cyber-muted font-medium">STUDIO</span>
+          <span className="text-cyber-blue font-black">Kaif</span>
+          <span className="text-cyber-muted font-normal text-sm tracking-wider uppercase opacity-80">Studio</span>
         </a>
 
         {/* Desktop nav links */}
-        <nav className="hidden md:flex items-center gap-8 font-mono text-sm sm:text-base tracking-[0.15em] text-cyber-text font-bold">
+        <nav className="hidden md:flex items-center gap-8 text-sm text-cyber-text/80 font-medium">
           {LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              onClick={handleAnchor(l.href)}
-              className="hover:text-cyber-text transition-colors apple-nav-link"
+              onClick={handleAnchor(l.href, l.isDrawerTrigger)}
+              className="hover:text-cyber-blue transition-colors apple-nav-link flex items-center gap-1"
             >
+              {l.isDrawerTrigger && <Sparkles className="h-3 w-3 text-cyber-blue animate-pulse" />}
               {l.label}
             </a>
           ))}
@@ -98,15 +104,15 @@ export default function Navbar() {
             <a
               href="#contact"
               onClick={handleAnchor("#contact")}
-              className="inline-flex items-center gap-2 rounded-full bg-cyber-blue text-white px-5.5 py-2.5 text-sm sm:text-base font-bold transition-transform duration-300 hover:brightness-105"
+              className="inline-flex items-center gap-1.5 rounded-full bg-black text-white hover:bg-black/90 px-5.5 py-2.5 text-sm font-semibold transition-all duration-300"
             >
-              Start a project <ArrowUpRight className="h-4 w-4" />
+              Start a build <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </Magnetic>
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex md:hidden p-2 rounded-xl text-cyber-text hover:bg-black/[0.04] transition-colors border border-black/5"
+            className="flex md:hidden p-2 rounded-full text-cyber-text hover:bg-black/[0.04] transition-colors border border-black/5"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -116,24 +122,25 @@ export default function Navbar() {
 
       {/* Mobile menu dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden mt-2 mx-auto max-w-7xl glass-panel rounded-2xl p-5 border-black/8 shadow-xl animate-in fade-in slide-in-from-top-4 duration-300">
-          <nav className="flex flex-col gap-4 font-mono text-sm sm:text-base tracking-[0.15em] text-cyber-text font-bold">
+        <div className="md:hidden mt-2 mx-auto max-w-7xl glass-panel rounded-3xl p-5 border-black/8 shadow-xl animate-in fade-in slide-in-from-top-4 duration-300">
+          <nav className="flex flex-col gap-4 text-sm font-semibold text-cyber-text">
             {LINKS.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                onClick={handleAnchor(l.href)}
-                className="py-2.5 border-b border-black/5 hover:text-cyber-text transition-colors"
+                onClick={handleAnchor(l.href, l.isDrawerTrigger)}
+                className="py-2.5 border-b border-black/5 hover:text-cyber-blue transition-colors flex items-center gap-1.5"
               >
+                {l.isDrawerTrigger && <Sparkles className="h-3.5 w-3.5 text-cyber-blue animate-pulse" />}
                 {l.label}
               </a>
             ))}
             <a
               href="#contact"
               onClick={handleAnchor("#contact")}
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-cyber-blue text-white py-3 text-sm sm:text-base font-bold transition-transform duration-300 hover:brightness-105"
+              className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-black text-white py-3 text-sm font-semibold transition-all duration-300 hover:brightness-105"
             >
-              Start a project <ArrowUpRight className="h-4 w-4" />
+              Start a build <ArrowUpRight className="h-4 w-4" />
             </a>
           </nav>
         </div>

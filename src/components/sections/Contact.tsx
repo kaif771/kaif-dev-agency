@@ -214,7 +214,7 @@ export default function Contact() {
                     value={formData.name}
                     onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
                     placeholder="John Doe"
-                    className="w-full rounded-2xl border border-black/8 bg-white px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
+                    className="w-full rounded-2xl border-0 bg-slate-50 dark:bg-zinc-900/50 px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/40 focus:outline-none focus:bg-white dark:focus:bg-zinc-950 focus:ring-2 focus:ring-cyber-blue/20 transition"
                   />
                 </div>
 
@@ -232,17 +232,17 @@ export default function Contact() {
                     value={formData.email}
                     onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
                     placeholder="you@company.com"
-                    className="w-full rounded-2xl border border-black/8 bg-white px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
+                    className="w-full rounded-2xl border-0 bg-slate-50 dark:bg-zinc-900/50 px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/40 focus:outline-none focus:bg-white dark:focus:bg-zinc-950 focus:ring-2 focus:ring-cyber-blue/20 transition"
                   />
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-black/8 bg-black/[0.02] p-5.5">
+              <div className="rounded-3xl border-0 bg-slate-50 dark:bg-zinc-900/40 p-5.5">
                 <div className="flex items-center justify-between gap-4">
                   <label className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase">
-                    Budget
+                    Budget Tier
                   </label>
-                  <div className="rounded-full border border-black/8 bg-white px-4 py-2 text-sm sm:text-base font-mono text-cyber-text font-black shadow-sm">
+                  <div className="rounded-full border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 px-4 py-2 text-sm sm:text-base font-mono text-cyber-text font-black shadow-sm">
                     ${formData.budget.toLocaleString()}
                   </div>
                 </div>
@@ -256,14 +256,14 @@ export default function Contact() {
                   onChange={(e) =>
                     setFormData((p) => ({ ...p, budget: parseInt(e.target.value, 10) }))
                   }
-                  className="mt-4 w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-black/10 accent-cyber-blue"
+                  className="mt-4 w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-black/10 dark:bg-white/10 accent-cyber-blue"
                 />
 
                 <div className="mt-4">
                   <div className={`text-base font-black ${budgetInfo.colorClass}`}>
                     {budgetInfo.title}
                   </div>
-                  <div className="mt-1 text-sm text-cyber-text font-medium">{budgetInfo.desc}</div>
+                  <div className="mt-1 text-sm text-cyber-muted font-medium">{budgetInfo.desc}</div>
                 </div>
               </div>
 
@@ -281,12 +281,12 @@ export default function Contact() {
                   value={formData.details}
                   onChange={(e) => setFormData((p) => ({ ...p, details: e.target.value }))}
                   placeholder="What are we building? Timeline, integrations, constraints…"
-                  className="w-full resize-none rounded-2xl border border-black/8 bg-white px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-blue/30 focus:bg-white transition"
+                  className="w-full resize-none rounded-2xl border-0 bg-slate-50 dark:bg-zinc-900/50 px-4 py-3.5 text-base font-semibold text-cyber-text placeholder:text-cyber-muted/40 focus:outline-none focus:bg-white dark:focus:bg-zinc-950 focus:ring-2 focus:ring-cyber-blue/20 transition"
                 />
               </div>
 
               {/* Premium Gemini AI Scope Estimator Module */}
-              <div className="rounded-3xl border border-black/8 bg-black/[0.02] p-5.5 space-y-4">
+              <div className="rounded-3xl border-0 bg-slate-50 dark:bg-zinc-900/40 p-5.5 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="space-y-1">
                     <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text uppercase flex items-center gap-1.5">
@@ -298,25 +298,24 @@ export default function Contact() {
                     </div>
                   </div>
                   
-                  {formData.details.trim().length >= 10 ? (
-                    <button
-                      type="button"
-                      disabled={isScopeAuditing}
-                      onClick={handleScopeAudit}
-                      className="rounded-2xl bg-cyber-blue hover:brightness-105 px-4.5 py-3 text-xs sm:text-sm font-bold text-white transition active:scale-[0.98] shadow-sm flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-60 shrink-0"
-                    >
-                      <Sparkles className="h-4 w-4" />
-                      {isScopeAuditing ? "Analyzing..." : "Analyze Scope"}
-                    </button>
-                  ) : (
-                    <div className="text-xs font-mono font-bold text-cyber-muted border border-black/8 bg-white px-3.5 py-2.5 rounded-xl text-center shrink-0">
-                      ⚠️ Write details to unlock AI
-                    </div>
-                  )}
+                  {/* Custom green active/disabled styling on the Analyze Scope button based on details character validation */}
+                  <button
+                    type="button"
+                    disabled={isScopeAuditing || formData.details.trim().length < 10}
+                    onClick={handleScopeAudit}
+                    className={`rounded-2xl px-5 py-3 text-xs sm:text-sm font-bold transition duration-300 flex items-center justify-center gap-1.5 ${
+                      formData.details.trim().length >= 10
+                        ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/10 cursor-pointer active:scale-[0.98]"
+                        : "bg-emerald-500/10 dark:bg-emerald-500/5 text-emerald-600/55 dark:text-emerald-400/45 border border-emerald-500/10 cursor-not-allowed"
+                    }`}
+                  >
+                    <Sparkles className="h-4 w-4" />
+                    {isScopeAuditing ? "Analyzing..." : "Analyze Scope"}
+                  </button>
                 </div>
 
                 {isScopeAuditing && (
-                  <div className="rounded-2xl border border-black/8 bg-black/[0.04] p-4.5 font-mono text-xs leading-relaxed text-cyber-muted animate-pulse">
+                  <div className="rounded-2xl border border-black/5 dark:border-white/5 bg-black/[0.04] dark:bg-white/[0.02] p-4.5 font-mono text-xs leading-relaxed text-cyber-muted animate-pulse">
                     <div className="text-cyber-text font-bold">$ pnpm ship --analyze-scope</div>
                     <div className="text-cyber-blue font-bold mt-1 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-cyber-blue animate-ping"></span>
@@ -326,54 +325,83 @@ export default function Contact() {
                   </div>
                 )}
 
-                {!isScopeAuditing && scopeAuditData && (
-                  <div className="rounded-2xl border border-cyber-blue/30 bg-cyber-blue/[0.01] p-4.5 font-mono text-xs leading-relaxed text-cyber-muted relative overflow-hidden">
-                    <div className="flex items-center justify-between">
-                      <span className="text-cyber-text font-bold">$ {scopeAuditData.command || "analyze --scope-complexity"}</span>
-                      <span className="text-[9px] text-cyber-blue border border-cyber-blue/30 bg-cyber-blue/5 px-2 py-0.5 rounded font-bold font-mono">
-                        {scopeAuditData.offline ? "SIMULATED REVIEW" : "LIVE GEMINI"}
-                      </span>
-                    </div>
-
-                    <div className="mt-2 space-y-1">
-                      {scopeAuditData.trace?.map((line: string, idx: number) => (
-                        <div key={idx} className={line.startsWith("✓") ? "text-cyber-green font-bold" : "text-cyber-muted"}>
-                          {line}
+                {!isScopeAuditing && (
+                  <div className="rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 p-4.5 font-mono text-xs leading-relaxed text-cyber-muted relative overflow-hidden">
+                    {formData.details.trim().length >= 10 ? (
+                      <>
+                        <div className="flex items-center justify-between">
+                          <span className="text-cyber-text font-bold">
+                            $ {scopeAuditData ? scopeAuditData.command : `pnpm ship --plan=${formData.budget < 500 ? "poc" : formData.budget < 1000 ? "mvp" : "production"} --budget=$${formData.budget}`}
+                          </span>
+                          <span className="text-[9px] text-cyber-blue border border-cyber-blue/30 bg-cyber-blue/5 px-2 py-0.5 rounded font-bold font-mono">
+                            {scopeAuditData ? (scopeAuditData.offline ? "SIMULATED REVIEW" : "LIVE GEMINI") : "REAL-TIME LOGS"}
+                          </span>
                         </div>
-                      ))}
-                    </div>
 
-                    <div className="border-t border-black/8 pt-3 mt-3 space-y-2">
-                      <div className="flex items-center justify-between gap-4 font-sans text-xs">
-                        <span className="font-mono text-[10px] tracking-wider uppercase font-bold text-cyber-text">Complexity Tier</span>
-                        <span className="font-black text-cyber-blue">{scopeAuditData.complexity || "MVP Tier"}</span>
-                      </div>
-                      
-                      <div className="border-t border-black/5 pt-2">
-                        <div className="text-cyber-blue font-bold text-[10px] uppercase tracking-wider mb-1 font-sans">
-                          GEMINI SYSTEM ARCHITECTURE RECOMMENDATION:
+                        <div className="mt-3 space-y-1">
+                          {scopeAuditData ? (
+                            scopeAuditData.trace?.map((line: string, idx: number) => (
+                              <div key={idx} className={line.startsWith("✓") ? "text-cyber-green font-bold" : "text-cyber-muted"}>
+                                {line}
+                              </div>
+                            ))
+                          ) : (
+                            <>
+                              <div className="text-amber-500 font-bold">→ Dynamic budget tier spec:</div>
+                              <div className="text-cyber-green font-bold">✓ Target Budget: ${formData.budget} ({formData.budget < 500 ? "Proof of Concept" : formData.budget < 1000 ? "MVP Release" : "Premium Sharded Architecture"})</div>
+                              <div className="text-cyber-muted">✓ Stack Recommendation: Next.js + {formData.budget < 500 ? "SQLite/KV" : formData.budget < 1000 ? "MongoDB Atlas (Indexed)" : "PostgreSQL/Redis Cluster"}</div>
+                              <div className="text-cyber-muted">✓ Animation/Motion layer: Framer Motion + {formData.budget >= 1000 ? "Lenis Scroll & GSAP" : "Basic CSS Transitions"}</div>
+                              <div className="text-cyber-blue font-bold">→ Ready for technical audit (click green button above)</div>
+                            </>
+                          )}
                         </div>
-                        <p className="text-cyber-text font-semibold leading-normal font-sans text-xs sm:text-sm">
-                          {scopeAuditData.result}
-                        </p>
-                      </div>
-                    </div>
 
-                    <button
-                      type="button"
-                      onClick={handleScopeAudit}
-                      className="mt-3 w-full py-2 px-3 text-[11px] font-bold rounded-xl border border-black/8 bg-white hover:bg-black/[0.03] text-cyber-text font-sans transition active:scale-[0.98] flex items-center justify-center gap-1 cursor-pointer"
-                    >
-                      <RefreshCw className="h-3 w-3" />
-                      Run New Scope Analysis
-                    </button>
+                        <div className="border-t border-black/5 dark:border-white/5 pt-3 mt-3 space-y-2">
+                          <div className="flex items-center justify-between gap-4 font-sans text-xs">
+                            <span className="font-mono text-[10px] tracking-wider uppercase font-bold text-cyber-text">Complexity Tier</span>
+                            <span className="font-black text-cyber-blue">
+                              {scopeAuditData ? scopeAuditData.complexity : (formData.budget < 500 ? "Lightweight POC Tier" : formData.budget < 1000 ? "Standard MVP Tier" : "Premium Scaling Tier")}
+                            </span>
+                          </div>
+                          
+                          <div className="border-t border-black/5 pt-2">
+                            <div className="text-cyber-blue font-bold text-[10px] uppercase tracking-wider mb-1 font-sans">
+                              {scopeAuditData ? "GEMINI ARCHITECTURAL BRIEF:" : "PREVIEW SPEC:"}
+                            </div>
+                            <p className="text-cyber-text font-semibold leading-normal font-sans text-xs sm:text-sm">
+                              {scopeAuditData ? scopeAuditData.result : (
+                                formData.budget < 500
+                                  ? "Fast PoC pathway optimized for low latency and zero server costs. Focuses on core product flow validation with clean, modular TypeScript handlers."
+                                  : formData.budget < 1000
+                                  ? "Standard release with a secure query routing pattern and clean server endpoints. Perfect for standard database aggregates, automated mailers, and premium visual components."
+                                  : "Premium architecture featuring geo-distributed clusters, complete database indexing, caching strategies, and robust client/server safety gates."
+                              )}
+                            </p>
+                          </div>
+                        </div>
+
+                        {scopeAuditData && (
+                          <button
+                            type="button"
+                            onClick={handleScopeAudit}
+                            className="mt-3 w-full py-2 px-3 text-[11px] font-bold rounded-xl border border-black/8 dark:border-white/8 bg-white dark:bg-zinc-950 hover:bg-black/[0.03] dark:hover:bg-white/[0.03] text-cyber-text font-sans transition active:scale-[0.98] flex items-center justify-center gap-1 cursor-pointer"
+                          >
+                            <RefreshCw className="h-3 w-3" />
+                            Run New Scope Analysis
+                          </button>
+                        )}
+                      </>
+                    ) : (
+                      <div className="text-center py-4 text-xs font-mono font-bold text-cyber-muted">
+                        ⚠️ Describe your project details above (min 10 chars) to unlock the live AI architecture preview console
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
 
-
               {submitStatus === "error" ? (
-                <div className="rounded-2xl border border-black/8 bg-black/[0.02] px-4 py-3.5 text-base font-semibold text-cyber-text">
+                <div className="rounded-2xl border border-black/5 dark:border-white/5 bg-black/[0.02] dark:bg-white/[0.02] px-4 py-3.5 text-base font-semibold text-cyber-text">
                   {statusMessage}
                 </div>
               ) : null}
@@ -382,7 +410,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-2xl bg-cyber-blue px-6 py-4.5 text-base font-bold text-white hover:brightness-105 disabled:opacity-60 transition shadow-md"
+                  className="w-full rounded-2xl bg-cyber-blue px-6 py-4.5 text-base font-bold text-white hover:brightness-105 disabled:opacity-60 transition shadow-md cursor-pointer"
                 >
                   {isSubmitting ? "Sending…" : "Send request"}
                   <ChevronRight className="inline-block ml-2 h-4 w-4" />
