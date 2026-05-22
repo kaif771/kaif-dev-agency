@@ -14,25 +14,25 @@ type BudgetTier = {
 };
 
 function getBudgetTierLabel(budget: number): BudgetTier {
-  if (budget < 3000) {
+  if (budget < 500) {
     return {
-      title: "MVP / Proof of concept",
-      desc: "Fast validation with a clean production path.",
+      title: "Micro-build / Proof of concept",
+      desc: "Fast validation with a clean, light production path.",
       colorClass: "text-cyber-green",
     };
   }
 
-  if (budget < 8000) {
+  if (budget < 1000) {
     return {
-      title: "Production build",
-      desc: "Polished UX, database, deploy, and maintainable architecture.",
+      title: "MVP / Core Release",
+      desc: "Polished core functionality, reliable database, and custom UX.",
       colorClass: "text-cyber-blue",
     };
   }
 
   return {
-    title: "High‑stakes systems",
-    desc: "Performance, security, and scale with tighter engineering loops.",
+    title: "Premium Production System",
+    desc: "Complete production-ready build, high performance, and deep scaling integration.",
     colorClass: "text-cyber-blue",
   };
 }
@@ -52,7 +52,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    budget: 5000,
+    budget: 500,
     details: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,7 +78,7 @@ export default function Contact() {
       if (response.ok) {
         setSubmitStatus("success");
         setStatusMessage(data.message || "Request received.");
-        setFormData({ name: "", email: "", budget: 5000, details: "" });
+        setFormData({ name: "", email: "", budget: 500, details: "" });
       } else {
         setSubmitStatus("error");
         setStatusMessage(data.error || "Something went wrong.");
@@ -208,9 +208,9 @@ export default function Contact() {
 
                 <input
                   type="range"
-                  min={500}
-                  max={15000}
-                  step={500}
+                  min={100}
+                  max={1500}
+                  step={100}
                   value={formData.budget}
                   onChange={(e) =>
                     setFormData((p) => ({ ...p, budget: parseInt(e.target.value, 10) }))
