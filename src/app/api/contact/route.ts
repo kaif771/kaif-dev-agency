@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { name, email, budget, details } = body;
+    const budgetNumber = Number(budget) || 5000;
 
     // 1. Inputs validation
     if (!name || !email || !details) {
@@ -27,13 +28,13 @@ export async function POST(req: NextRequest) {
         const newLead = await Lead.create({
           name,
           email,
-          budget: Number(budget) || 5000,
+          budget: budgetNumber,
           details
         });
         dbSaved = true;
         savedLeadId = newLead._id;
         console.log(`[DATABASE SUCCESS] Saved lead ${newLead._id} to MongoDB Atlas.`);
-      } catch (dbErr: any) {
+      } catch (dbErr: unknown) {
         console.error("[DATABASE ERROR] Failed saving lead to Atlas:", dbErr);
         // Continue to attempt Resend delivery even if DB save fails, keeping route highly resilient
       }
@@ -74,7 +75,7 @@ export async function POST(req: NextRequest) {
                 </tr>
                 <tr>
                   <td style="padding: 10px 0; font-weight: bold; color: #64748b; font-family: monospace;">EST_BUDGET:</td>
-                  <td style="padding: 10px 0; color: #39ff14; font-weight: bold; font-family: monospace;">$${budget.toLocaleString()} USD</td>
+                  <td style="padding: 10px 0; color: #39ff14; font-weight: bold; font-family: monospace;">$${budgetNumber.toLocaleString()} USD</td>
                 </tr>
                 <tr>
                   <td style="padding: 10px 0; font-weight: bold; color: #64748b; font-family: monospace;">ATLAS_SYNCED:</td>
@@ -101,7 +102,7 @@ export async function POST(req: NextRequest) {
         emailSent = true;
         resendMessageId = data?.id;
         console.log(`[EMAIL SUCCESS] Dispatched lead via Resend with ID: ${data?.id}`);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("[EMAIL ERROR] Failed dispatching Resend email:", err);
       }
     }
@@ -125,10 +126,11 @@ export async function POST(req: NextRequest) {
       message: "Lead processed in developer mock mode. Ensure RESEND_API_KEY and MONGODB_URI are configured in .env.local for full deployment."
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("API Route Execution Error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { success: false, error: "Internal Server Error: " + error.message },
+      { success: false, error: `Internal Server Error: ${message}` },
       { status: 500 }
     );
   }

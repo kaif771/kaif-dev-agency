@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, models, model } from "mongoose";
+import { Schema, type Document, models, model } from "mongoose";
 
 export interface ILead extends Document {
   name: string;

@@ -7,7 +7,6 @@ interface Message {
   id: string;
   sender: "user" | "ai";
   text: string;
-  timestamp: Date;
 }
 
 const PRE_BAKED_QUESTIONS = [
@@ -18,21 +17,21 @@ const PRE_BAKED_QUESTIONS = [
 ];
 
 const BOT_RESPONSES: Record<string, string> = {
-  stack: "We are full-stack specialists focused on high-performance architectures. Our core stack is the MERN & Next.js Ecosystem: React, Next.js (App Router), Node.js, Express, MongoDB, and TypeScript. We also build clean tailwind interfaces with optimized page loads.",
-  ai: "We build advanced AI solutions! Our capabilities include custom RAG (Retrieval-Augmented Generation) architectures, vector database integration (Pinecone, ChromaDB), custom LLM orchestration (LangChain, LlamaIndex), OpenAI/Anthropic API integration, and automated agents.",
-  agency: "Kaif is the lead Full-Stack Engineer and architect behind Kaif Dev Agency. Operating from Maharashtra, India, he pairs a formal BCA background with extensive hands-on expertise in Next.js, TypeScript, Tailwind CSS, and MongoDB. He specializes in turning complex business ideas into high-converting MVPs, autonomous AI tools, and enterprise-grade web applications with blistering delivery speeds.",
-  availability: "Yes! We are active and available. We currently have availability for 2 new projects starting in May 2026. You can lock in a spot by filling out the Tech Strategy form on this page or booking a call directly!",
-  default: "That's an interesting question! At Kaif Dev Agency, we specialize in high-performance full-stack applications (React, Next.js, Node, MongoDB) and AI integrations (RAG, custom agents). Fill out the contact form below or book a tech strategy call to discuss this in detail with us!",
+  stack: "We build high-performance web systems with a pragmatic stack: Next.js (App Router), TypeScript, Node.js, and MongoDB — with careful UI engineering using Tailwind.",
+  ai: "We ship production AI features: RAG pipelines, vector DB integration, LLM orchestration (LangChain/LlamaIndex), and guardrails for reliability.",
+  agency: "Kaif leads the engineering work at Kaif Dev Agency from Maharashtra, India — focused on building fast, maintainable, conversion-ready products.",
+  availability: "Yes — currently taking a small number of new builds. Use the intake form to share scope and timeline.",
+  default: "Happy to help. Ask about stack, timelines, performance, or AI — or use the intake form for a detailed plan.",
 };
 
 export default function AiChatWidget() {
+  const messageIdRef = useRef(0);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       sender: "ai",
-      text: "System Online. I am the Kaif Dev Virtual Assistant. How can I help you engineer your high-performance web app or AI solution today?",
-      timestamp: new Date(),
+      text: "Studio assistant online. What are you building — and what constraints matter most (speed, scale, SEO, AI, integrations)?",
     },
   ]);
   const [inputValue, setInputValue] = useState("");
@@ -49,12 +48,12 @@ export default function AiChatWidget() {
   const handleSendMessage = async (text: string) => {
     if (!text.trim()) return;
 
-    const userMsgId = Math.random().toString(36).substring(7);
+    messageIdRef.current += 1;
+    const userMsgId = `m${messageIdRef.current}`;
     const userMsg: Message = {
       id: userMsgId,
       sender: "user",
       text: text,
-      timestamp: new Date(),
     };
 
     const updatedMessages = [...messages, userMsg];
@@ -66,21 +65,23 @@ export default function AiChatWidget() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updatedMessages.map(m => ({ sender: m.sender, text: m.text })) }),
+        body: JSON.stringify({
+          messages: updatedMessages.map((m) => ({ sender: m.sender, text: m.text })),
+        }),
       });
 
       const data = await response.json();
 
       if (response.ok && data.success) {
         setIsTyping(false);
-        const newMsgId = Math.random().toString(36).substring(7);
+        messageIdRef.current += 1;
+        const newMsgId = `m${messageIdRef.current}`;
         setMessages((prev) => [
           ...prev,
           {
             id: newMsgId,
             sender: "ai",
             text: data.reply,
-            timestamp: new Date(),
           },
         ]);
         return;
@@ -104,24 +105,24 @@ export default function AiChatWidget() {
     }
 
     const responseText = matchedKey ? BOT_RESPONSES[matchedKey] : BOT_RESPONSES.default;
-    
+
     setTimeout(() => {
       setIsTyping(false);
-      const newMsgId = Math.random().toString(36).substring(7);
+      messageIdRef.current += 1;
+      const newMsgId = `m${messageIdRef.current}`;
       setMessages((prev) => [
         ...prev,
         {
           id: newMsgId,
           sender: "ai",
           text: responseText,
-          timestamp: new Date(),
         },
       ]);
-    }, 600 + Math.random() * 500);
+    }, 650);
   };
 
   const handleToggle = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((v) => !v);
     setHasNewMessage(false);
   };
 
@@ -131,14 +132,14 @@ export default function AiChatWidget() {
       {!isOpen && (
         <button
           onClick={handleToggle}
-          className="relative flex items-center justify-center w-14 h-14 rounded-full bg-cyber-card border border-cyber-blue/30 text-cyber-blue hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:shadow-[0_0_25px_rgba(0,240,255,0.5)] hover:border-cyber-blue group"
+          className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-white/3 border border-white/10 text-cyber-text hover:bg-white/4 transition-colors group"
           aria-label="Open AI Assistant"
         >
-          <MessageSquare className="w-6 h-6 transition-transform duration-300 group-hover:scale-110" />
+          <MessageSquare className="w-6 h-6 text-cyber-blue transition-transform duration-300 group-hover:scale-110" />
           {hasNewMessage && (
             <span className="absolute top-0 right-0 flex h-3.5 w-3.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyber-green opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-cyber-green border border-[#050508]"></span>
+              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-cyber-green border border-black/40"></span>
             </span>
           )}
         </button>
@@ -146,24 +147,26 @@ export default function AiChatWidget() {
 
       {/* Expandable Chat Window */}
       {isOpen && (
-        <div className="flex flex-col w-[350px] sm:w-[380px] h-[500px] rounded-2xl glass-panel border border-cyber-blue/30 shadow-[0_0_30px_rgba(0,240,255,0.15)] overflow-hidden transition-all duration-300 animate-in fade-in slide-in-from-bottom-5">
+        <div className="flex flex-col w-[350px] sm:w-[380px] h-[520px] rounded-3xl glass-panel border border-white/10 overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 bg-cyber-card/80 border-b border-white/5">
+          <div className="flex items-center justify-between p-4 bg-black/20 border-b border-white/10">
             <div className="flex items-center gap-2.5">
-              <div className="relative flex items-center justify-center w-8.5 h-8.5 rounded-lg bg-cyber-blue/10 border border-cyber-blue/40 text-cyber-blue">
+              <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-cyber-blue/10 border border-cyber-blue/30 text-cyber-blue">
                 <Bot className="w-5 h-5" />
-                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-cyber-green border border-[#0a0a16] animate-pulse"></span>
+                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-cyber-green border border-black/40 animate-pulse"></span>
               </div>
               <div>
-                <h3 className="text-sm font-semibold tracking-wider text-slate-100 flex items-center gap-1.5">
-                  CYBER-BRAIN V1.0 <Sparkles className="w-3 h-3 text-cyber-blue" />
+                <h3 className="text-sm font-semibold tracking-wide text-cyber-text flex items-center gap-1.5">
+                  Studio Assistant <Sparkles className="w-3 h-3 text-cyber-blue" />
                 </h3>
-                <p className="text-[10px] text-cyber-muted tracking-widest font-mono">STATUS: ONLINE</p>
+                <p className="text-[10px] text-cyber-muted tracking-widest font-mono">
+                  STATUS: ONLINE
+                </p>
               </div>
             </div>
             <button
               onClick={handleToggle}
-              className="p-1 rounded-md text-cyber-muted hover:text-slate-100 hover:bg-white/5 transition-colors"
+              className="p-1 rounded-md text-cyber-muted hover:text-cyber-text hover:bg-white/4 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -180,8 +183,8 @@ export default function AiChatWidget() {
                 <div
                   className={`flex items-center justify-center w-8 h-8 rounded-full border shrink-0 text-xs font-mono ${
                     msg.sender === "user"
-                      ? "bg-cyber-violet/10 border-cyber-violet/40 text-cyber-violet"
-                      : "bg-cyber-blue/10 border-cyber-blue/40 text-cyber-blue"
+                      ? "bg-cyber-green/10 border-cyber-green/30 text-cyber-green"
+                      : "bg-cyber-blue/10 border-cyber-blue/30 text-cyber-blue"
                   }`}
                 >
                   {msg.sender === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
@@ -191,8 +194,8 @@ export default function AiChatWidget() {
                 <div
                   className={`max-w-[75%] p-3 rounded-xl border ${
                     msg.sender === "user"
-                      ? "bg-cyber-card-light border-cyber-violet/20 text-slate-200 rounded-tr-none"
-                      : "bg-[#0b0c20]/60 border-cyber-blue/10 text-slate-300 rounded-tl-none font-mono text-[13px] leading-relaxed"
+                      ? "bg-white/3 border-white/10 text-cyber-text rounded-tr-none"
+                      : "bg-black/20 border-white/10 text-cyber-text/90 rounded-tl-none font-mono text-[13px] leading-relaxed"
                   }`}
                 >
                   {msg.text}
@@ -205,7 +208,7 @@ export default function AiChatWidget() {
                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-cyber-blue/10 border border-cyber-blue/40 text-cyber-blue shrink-0">
                   <Bot className="w-4 h-4" />
                 </div>
-                <div className="bg-[#0b0c20]/60 border border-cyber-blue/10 p-3 rounded-xl rounded-tl-none max-w-[75%]">
+                <div className="bg-black/20 border border-white/10 p-3 rounded-xl rounded-tl-none max-w-[75%]">
                   <div className="flex gap-1 items-center py-1">
                     <span className="w-1.5 h-1.5 bg-cyber-blue rounded-full animate-bounce"></span>
                     <span className="w-1.5 h-1.5 bg-cyber-blue rounded-full animate-bounce [animation-delay:0.2s]"></span>
@@ -218,14 +221,14 @@ export default function AiChatWidget() {
           </div>
 
           {/* Quick-reply Tags */}
-          <div className="p-3 bg-cyber-card/30 border-t border-white/5 space-y-1.5">
+          <div className="p-3 bg-black/20 border-t border-white/10 space-y-1.5">
             <p className="text-[10px] text-cyber-muted font-mono tracking-wider">TAP QUICK INQUIRIES:</p>
             <div className="flex flex-wrap gap-1.5">
               {PRE_BAKED_QUESTIONS.map((q) => (
                 <button
                   key={q.key}
                   onClick={() => handleSendMessage(q.text)}
-                  className="px-2.5 py-1 text-[11px] font-mono rounded-full bg-white/2 hover:bg-cyber-blue/10 border border-white/5 hover:border-cyber-blue/30 text-cyber-muted hover:text-cyber-blue transition-all duration-300"
+                  className="px-2.5 py-1 text-[11px] font-mono rounded-full bg-white/2 hover:bg-white/4 border border-white/10 text-cyber-muted hover:text-cyber-text transition-colors"
                 >
                   {q.text}
                 </button>
@@ -239,19 +242,19 @@ export default function AiChatWidget() {
               e.preventDefault();
               handleSendMessage(inputValue);
             }}
-            className="p-3 bg-cyber-card border-t border-white/5 flex gap-2"
+            className="p-3 bg-black/25 border-t border-white/10 flex gap-2"
           >
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask anything about our stack..."
-              className="flex-1 px-3.5 py-2 text-xs bg-white/3 hover:bg-white/5 focus:bg-white/5 border border-white/5 focus:border-cyber-blue/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none transition-all duration-300 font-mono"
+              placeholder="Ask about stack, timeline, AI, performance…"
+              className="flex-1 px-3.5 py-2 text-xs bg-white/3 hover:bg-white/4 focus:bg-white/4 border border-white/10 focus:border-white/18 rounded-xl text-cyber-text placeholder:text-white/25 focus:outline-none transition-colors font-mono"
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="p-2.5 rounded-xl bg-cyber-blue/10 border border-cyber-blue/30 text-cyber-blue hover:bg-cyber-blue hover:text-black hover:shadow-[0_0_10px_rgba(0,240,255,0.4)] disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-cyber-blue disabled:hover:shadow-none transition-all duration-300 shrink-0"
+              className="p-2.5 rounded-xl bg-cyber-blue text-black hover:brightness-105 disabled:opacity-50 transition shrink-0"
             >
               <Send className="w-4 h-4" />
             </button>

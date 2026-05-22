@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import GridBackground from "@/components/GridBackground";
 import AiChatWidget from "@/components/AiChatWidget";
+import SmoothScroll from "@/components/motion/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,14 +47,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="relative min-h-screen bg-cyber-bg text-cyber-text antialiased selection:bg-cyber-blue/30 selection:text-white">
+      <body className="relative min-h-screen bg-cyber-bg text-cyber-text antialiased overflow-x-hidden">
         {/* Dynamic Glowing Cyberpunk Background */}
         <GridBackground />
 
         {/* Main Content Viewport */}
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
 
         {/* Custom Wow-Factor AI Assistant */}
         <AiChatWidget />

@@ -1,37 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cyber-bg: #050508;
-  --color-cyber-card: #0a0a16;
-  --color-cyber-card-light: #121226;
-  --color-cyber-blue: #00f0ff;
-  --color-cyber-green: #39ff14;
-  --color-cyber-violet: #bd00ff;
-  --color-cyber-text: #f1f5f9;
-  --color-cyber-muted: #94a3b8;
-  
-  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-glow-blue: glow-blue 2s ease-in-out infinite alternate;
-  --animate-glow-green: glow-green 2s ease-in-out infinite alternate;
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-grid-drift: grid-drift 20s linear infinite;
+  /* Premium graphite theme (keeps existing token names to avoid churn) */
+  --color-cyber-bg: #07080a;
+  --color-cyber-card: #0b0d12;
+  --color-cyber-card-light: #0f131b;
+  --color-cyber-blue: #4c7dff;
+  --color-cyber-green: #42d392;
 
-  @keyframes glow-blue {
-    from {
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2), 0 0 20px rgba(0, 240, 255, 0.05);
-    }
-    to {
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 40px rgba(0, 240, 255, 0.15);
-    }
-  }
-  @keyframes glow-green {
-    from {
-      box-shadow: 0 0 10px rgba(57, 255, 20, 0.2), 0 0 20px rgba(57, 255, 20, 0.05);
-    }
-    to {
-      box-shadow: 0 0 20px rgba(57, 255, 20, 0.4), 0 0 40px rgba(57, 255, 20, 0.15);
-    }
-  }
+  /* Deprecated accent (alias to keep older classes harmless) */
+  --color-cyber-violet: #4c7dff;
+
+  --color-cyber-text: #e9eef5;
+  --color-cyber-muted: #9aa4b2;
+
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 10s ease-in-out infinite;
+  --animate-grid-drift: grid-drift 28s linear infinite;
   @keyframes float {
     0%, 100% {
       transform: translateY(0);
@@ -45,14 +30,23 @@
       background-position: 0 0;
     }
     100% {
-      background-position: 40px 40px;
+      background-position: 120px 120px;
     }
   }
 }
 
 :root {
-  --background: #050508;
-  --foreground: #f1f5f9;
+  --background: var(--color-cyber-bg);
+  --foreground: var(--color-cyber-text);
+
+  /* RGB helpers for ambient lighting layers */
+  --accent-blue-rgb: 76 125 255;
+  --accent-green-rgb: 66 211 146;
+  --panel-rgb: 12 14 18;
+
+  --spot-x: 50%;
+  --spot-y: 20%;
+  --spot-opacity: 0;
 }
 
 body {
@@ -62,69 +56,92 @@ body {
   overflow-x: hidden;
 }
 
-/* Cyberpunk Scrollbar styling */
+::selection {
+  background: rgb(var(--accent-blue-rgb) / 0.25);
+  color: #ffffff;
+}
+
+/* Subtle scrollbar (avoid neon) */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #050508;
+  background: #07080a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #0a0a1c;
-  border: 1px solid #1e293b;
+  background: rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(255 255 255 / 0.10);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00f0ff;
-  box-shadow: 0 0 8px #00f0ff;
+  background: rgb(255 255 255 / 0.14);
 }
 
-/* Custom interactive grid overlay */
-.cyber-grid {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
+/* Background layers used by GridBackground */
+.studio-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 140px 140px;
+  opacity: 0.28;
+  animation: var(--animate-grid-drift);
 }
 
-/* Neon glow helper classes */
-.glow-border-blue {
-  border: 1px solid rgba(0, 240, 255, 0.15);
-  transition: all 0.3s ease;
-}
-.glow-border-blue:hover {
-  border-color: rgba(0, 240, 255, 0.6);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+.studio-lights {
+  background:
+    radial-gradient(900px circle at 18% 18%, rgb(var(--accent-blue-rgb) / 0.16), transparent 56%),
+    radial-gradient(820px circle at 86% 28%, rgb(var(--accent-green-rgb) / 0.10), transparent 60%),
+    radial-gradient(1000px circle at 50% 100%, rgb(255 255 255 / 0.06), transparent 65%);
+  opacity: 0.9;
 }
 
-.glow-border-green {
-  border: 1px solid rgba(57, 255, 20, 0.15);
-  transition: all 0.3s ease;
-}
-.glow-border-green:hover {
-  border-color: rgba(57, 255, 20, 0.6);
-  box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+.studio-spotlight {
+  pointer-events: none;
+  background: radial-gradient(
+    780px circle at var(--spot-x) var(--spot-y),
+    rgb(var(--accent-blue-rgb) / 0.10),
+    transparent 60%
+  );
+  opacity: var(--spot-opacity);
+  transition: opacity 400ms ease;
 }
 
-.glow-border-violet {
-  border: 1px solid rgba(189, 0, 255, 0.15);
-  transition: all 0.3s ease;
-}
-.glow-border-violet:hover {
-  border-color: rgba(189, 0, 255, 0.6);
-  box-shadow: 0 0 15px rgba(189, 0, 255, 0.2);
+.studio-noise {
+  pointer-events: none;
+  background-image: url("/noise.svg");
+  background-repeat: repeat;
+  opacity: 0.12;
+  mix-blend-mode: overlay;
 }
 
 .glass-panel {
-  background: rgba(10, 10, 22, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgb(var(--panel-rgb) / 0.58);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid rgb(255 255 255 / 0.06);
 }
 
-/* Custom cyberpunk badge */
+/* Badge utility (kept for existing markup) */
 .cyber-badge {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  color: #94a3b8;
+  background: rgb(255 255 255 / 0.03);
+  border: 1px solid rgb(255 255 255 / 0.06);
+  color: var(--color-cyber-muted);
   font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Marquee (CSS-only; disabled by reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .marquee {
+    animation: marquee 22s linear infinite;
+    will-change: transform;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

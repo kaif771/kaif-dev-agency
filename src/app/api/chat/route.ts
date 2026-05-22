@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
           success: true,
           reply: responseText,
         });
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Gemini SDK Execution Error:", err);
         // Fallback to mock response below if API fails
       }
@@ -114,10 +114,11 @@ export async function POST(req: NextRequest) {
       reply
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat Serverless Route Error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: "Internal Server Error: " + error.message },
+      { error: `Internal Server Error: ${message}` },
       { status: 500 }
     );
   }
