@@ -3,7 +3,53 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const dynamic = "force-dynamic";
 
-const PERFORMANCE_FALLBACKS = [
+const STACK_FALLBACKS = [
+  {
+    command: "optimize --target=db-latency",
+    trace: [
+      "→ evaluating MongoDB Atlas query shape...",
+      "→ detected COLLSCAN on leads query filter",
+      "→ building compound index on { budget: 1, createdAt: -1 }...",
+      "✓ compound index built successfully in 12ms",
+    ],
+    recommendation: "Avoid query collection scans. Run compound indexes on high-frequency filters to scale read operations."
+  },
+  {
+    command: "optimize --target=hydration-contracts",
+    trace: [
+      "→ profiling next/headers & dynamic routing...",
+      "→ caught async props mismatch in server component hydration",
+      "→ standardizing response serializers for typed contracts...",
+      "✓ server/client rendering matched perfectly in 4ms",
+    ],
+    recommendation: "Ensure strict serialization boundaries. Never pass rich Mongoose documents directly to client components without mapping."
+  }
+];
+
+const MOTION_FALLBACKS = [
+  {
+    command: "optimize --target=gsap-rendering",
+    trace: [
+      "→ profiling main thread scroll listeners...",
+      "→ detected memory leak in unmounted ScrollTrigger boundaries",
+      "→ wrapping GSAP contexts and compiling explicit cleanup return...",
+      "✓ scroll performance reclaimed 14.5% idle cycles",
+    ],
+    recommendation: "Always encapsulate GSAP anims in useLayoutEffect and return ctx.revert() to prevent memory leaks and main thread blocks."
+  },
+  {
+    command: "optimize --target=smooth-scroll",
+    trace: [
+      "→ tracking Lenis frame rate under synthetic scroll events...",
+      "→ detected layout thrashing from will-change dynamic injections",
+      "→ tuning Lenis damping factors and standardizing CSS hardware layers...",
+      "✓ scroll jitter eliminated (60fps lock achieved)",
+    ],
+    recommendation: "Tether Lenis hooks safely and utilize will-change layout hints sparingly on animated containers to offload rendering to the GPU."
+  }
+];
+
+const GENERAL_FALLBACKS = [
   {
     command: "optimize --target=bundle-size",
     trace: [
@@ -13,16 +59,6 @@ const PERFORMANCE_FALLBACKS = [
       "✓ initial bundle size reduced by 34.2%",
     ],
     recommendation: "Use next/dynamic for heavy client side modules to improve LCP by up to 0.8s."
-  },
-  {
-    command: "optimize --target=db-latency",
-    trace: [
-      "→ evaluating MongoDB Atlas query shape...",
-      "→ detected COLLSCAN on leads query filter",
-      "→ building compound index on { budget: 1, createdAt: -1 }...",
-      "✓ index built successfully in 12ms",
-    ],
-    recommendation: "Avoid query collections scans. Run compound indexes on high-frequency query filters."
   },
   {
     command: "optimize --target=cls-shift",
@@ -39,7 +75,7 @@ const PERFORMANCE_FALLBACKS = [
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
-    const { target } = body;
+    const { target, category } = body;
 
     const geminiApiKey = process.env.GEMINI_API_KEY;
 
@@ -82,9 +118,18 @@ Ensure the output is valid JSON only. Do not wrap in markdown or backticks. Avoi
       }
     }
 
-    // Offline or fallback matching logic
-    const idx = Math.floor(Math.random() * PERFORMANCE_FALLBACKS.length);
-    const selected = PERFORMANCE_FALLBACKS[idx];
+    // Offline fallback selection based on category
+    let selected;
+    if (category === "stack") {
+      const idx = Math.floor(Math.random() * STACK_FALLBACKS.length);
+      selected = STACK_FALLBACKS[idx];
+    } else if (category === "motion") {
+      const idx = Math.floor(Math.random() * MOTION_FALLBACKS.length);
+      selected = MOTION_FALLBACKS[idx];
+    } else {
+      const idx = Math.floor(Math.random() * GENERAL_FALLBACKS.length);
+      selected = GENERAL_FALLBACKS[idx];
+    }
 
     return NextResponse.json({
       success: true,
@@ -100,3 +145,4 @@ Ensure the output is valid JSON only. Do not wrap in markdown or backticks. Avoi
     );
   }
 }
+

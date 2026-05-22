@@ -23,19 +23,28 @@ export default function Hero() {
     offline?: boolean;
   } | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<"general" | "stack" | "motion" | null>(null);
 
-  const handleAiOptimize = async () => {
+  const handleAiOptimize = async (category: "general" | "stack" | "motion" = "general") => {
     setIsAiLoading(true);
+    setActiveCategory(category);
     setAiOptimizeData(null);
 
-    const targets = ["Next.js Hydration & CLS", "Database Query Scans", "Dynamic Chunks & Webpack", "Tailwind CSS Compilation"];
-    const randomTarget = targets[Math.floor(Math.random() * targets.length)];
+    let target = "Next.js / TypeScript / Databases";
+    if (category === "stack") {
+      target = "Next.js dynamic routes, TypeScript strict contracts, and MongoDB query index strategy";
+    } else if (category === "motion") {
+      target = "GSAP scroll animations, ScrollTrigger cleanup, and Lenis smooth scrolling refresh cycles";
+    } else {
+      const targets = ["Next.js Hydration & CLS", "Database Query Scans", "Dynamic Chunks & Webpack", "Tailwind CSS Compilation"];
+      target = targets[Math.floor(Math.random() * targets.length)];
+    }
 
     try {
       const res = await fetch("/api/ai-optimize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ target: randomTarget }),
+        body: JSON.stringify({ target, category }),
       });
       const json = await res.json();
       if (json.success) {
@@ -58,6 +67,7 @@ export default function Hero() {
   const handleResetTerminal = () => {
     setAiOptimizeData(null);
     setIsAiLoading(false);
+    setActiveCategory(null);
   };
 
   useRevealOnScroll(scopeRef, {
@@ -231,13 +241,29 @@ export default function Hero() {
               <div className="px-5 py-5 font-mono text-sm leading-relaxed text-cyber-muted font-medium min-h-[175px]">
                 {isAiLoading ? (
                   <div className="space-y-2 animate-pulse">
-                    <div className="text-cyber-text font-bold">$ pnpm ship --optimize-ai</div>
+                    <div className="text-cyber-text font-bold">
+                      $ pnpm ship --optimize-{activeCategory === "stack" ? "stack" : activeCategory === "motion" ? "motion" : "general"}
+                    </div>
                     <div className="text-cyber-blue font-bold flex items-center gap-1.5 mt-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-cyber-blue animate-ping"></span>
                       → consulting Google Gemini AI...
                     </div>
-                    <div className="text-gray-400">→ parsing bundle optimization paths...</div>
-                    <div className="text-gray-400">→ optimizing component boundaries...</div>
+                    {activeCategory === "stack" ? (
+                      <>
+                        <div className="text-gray-400">→ auditing database indexing strategy...</div>
+                        <div className="text-gray-400">→ verifying serialization boundaries...</div>
+                      </>
+                    ) : activeCategory === "motion" ? (
+                      <>
+                        <div className="text-gray-400">→ profiling main thread animation contexts...</div>
+                        <div className="text-gray-400">→ inspecting ScrollTrigger garbage collection...</div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="text-gray-400">→ parsing bundle optimization paths...</div>
+                        <div className="text-gray-400">→ optimizing component boundaries...</div>
+                      </>
+                    )}
                   </div>
                 ) : aiOptimizeData ? (
                   <div className="space-y-2">
@@ -289,7 +315,7 @@ export default function Hero() {
                   </div>
                 )}
               </div>
-
+ 
               <div className="flex border-t border-black/8 bg-black/[0.02] p-2 gap-2">
                 {aiOptimizeData ? (
                   <button
@@ -301,7 +327,7 @@ export default function Hero() {
                   </button>
                 ) : (
                   <button
-                    onClick={handleAiOptimize}
+                    onClick={() => handleAiOptimize("general")}
                     disabled={isAiLoading}
                     className="flex-1 py-2 px-3 text-xs font-bold font-mono rounded-xl bg-cyber-blue hover:brightness-105 text-white flex items-center justify-center gap-1.5 transition shadow-sm disabled:opacity-50 active:scale-[0.98]"
                   >
@@ -312,18 +338,77 @@ export default function Hero() {
               </div>
             </div>
           </Tilt>
-
+ 
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <div data-hero-panel className="rounded-2xl border border-black/8 bg-white/70 p-4 shadow-sm" data-parallax>
-              <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text">STACK</div>
-              <div className="mt-2 text-base font-bold text-cyber-text">Next.js · TS · DB</div>
-              <div className="mt-1 text-base text-cyber-text font-medium">App Router, clean APIs, typed data.</div>
-            </div>
-            <div data-hero-panel className="rounded-2xl border border-black/8 bg-white/70 p-4 shadow-sm" data-parallax>
-              <div className="font-mono text-xs sm:text-sm tracking-[0.18em] font-bold text-cyber-text">MOTION</div>
-              <div className="mt-2 text-base font-bold text-cyber-text">GSAP · Lenis</div>
-              <div className="mt-1 text-base text-cyber-text font-medium">Scroll reveals with cleanup.</div>
-            </div>
+            {/* STACK Card (Interactive AI Audit) */}
+            <button
+              onClick={() => !isAiLoading && handleAiOptimize("stack")}
+              disabled={isAiLoading}
+              className={`text-left rounded-2xl border p-4 shadow-sm transition-all duration-300 active:scale-[0.98] cursor-pointer group relative overflow-hidden flex flex-col justify-between ${
+                activeCategory === "stack"
+                  ? "border-cyber-blue bg-cyber-blue/[0.03] ring-1 ring-cyber-blue/20"
+                  : "border-black/8 bg-white/70 hover:border-cyber-blue/30 hover:bg-cyber-blue/[0.01]"
+              }`}
+              data-hero-panel
+              data-parallax
+            >
+              {/* Premium Gradient Accent on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-cyber-blue/0 via-cyber-blue/0 to-cyber-blue/[0.04] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              
+              <div className="w-full">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs tracking-[0.18em] font-bold text-cyber-text">STACK</span>
+                  <span className={`font-mono text-[9px] font-bold tracking-wider px-1.5 py-0.5 rounded transition ${
+                    activeCategory === "stack"
+                      ? "text-cyber-blue bg-cyber-blue/10"
+                      : "text-cyber-muted group-hover:text-cyber-blue bg-black/[0.03] group-hover:bg-cyber-blue/5"
+                  }`}>
+                    {activeCategory === "stack" ? "⚡ ACTIVE" : "✨ AI AUDIT"}
+                  </span>
+                </div>
+                <div className="mt-2 text-base font-bold text-cyber-text group-hover:text-cyber-blue transition-colors">
+                  Next.js · TS · DB
+                </div>
+                <div className="mt-1 text-xs sm:text-sm text-cyber-text font-medium leading-snug">
+                  App Router, clean APIs, typed data.
+                </div>
+              </div>
+            </button>
+
+            {/* MOTION Card (Interactive AI Audit) */}
+            <button
+              onClick={() => !isAiLoading && handleAiOptimize("motion")}
+              disabled={isAiLoading}
+              className={`text-left rounded-2xl border p-4 shadow-sm transition-all duration-300 active:scale-[0.98] cursor-pointer group relative overflow-hidden flex flex-col justify-between ${
+                activeCategory === "motion"
+                  ? "border-cyber-green bg-cyber-green/[0.03] ring-1 ring-cyber-green/20"
+                  : "border-black/8 bg-white/70 hover:border-cyber-green/30 hover:bg-cyber-green/[0.01]"
+              }`}
+              data-hero-panel
+              data-parallax
+            >
+              {/* Premium Gradient Accent on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-cyber-green/0 via-cyber-green/0 to-cyber-green/[0.04] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+              <div className="w-full">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs tracking-[0.18em] font-bold text-cyber-text">MOTION</span>
+                  <span className={`font-mono text-[9px] font-bold tracking-wider px-1.5 py-0.5 rounded transition ${
+                    activeCategory === "motion"
+                      ? "text-cyber-green bg-cyber-green/10"
+                      : "text-cyber-muted group-hover:text-cyber-green bg-black/[0.03] group-hover:bg-cyber-green/5"
+                  }`}>
+                    {activeCategory === "motion" ? "⚡ ACTIVE" : "✨ AI AUDIT"}
+                  </span>
+                </div>
+                <div className="mt-2 text-base font-bold text-cyber-text group-hover:text-cyber-green transition-colors">
+                  GSAP · Lenis
+                </div>
+                <div className="mt-1 text-xs sm:text-sm text-cyber-text font-medium leading-snug">
+                  Scroll reveals with cleanup.
+                </div>
+              </div>
+            </button>
           </div>
         </div>
       </div>
