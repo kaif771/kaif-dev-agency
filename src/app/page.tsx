@@ -64,6 +64,7 @@ export default function Home() {
   // Intake Form details
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [budget, setBudget] = useState(800);
   const [details, setDetails] = useState("");
   const [systemConstraints, setSystemConstraints] = useState("No major latency bottlenecks; support high concurrency.");
@@ -192,8 +193,8 @@ export default function Home() {
   // Intake Form submit
   const handleIntakeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !details) {
-      setFormError("All fields (Name, Email, Project Details) are required.");
+    if (!name || !email || !phone || !details) {
+      setFormError("All fields (Name, Email, Phone, Project Details) are required.");
       return;
     }
 
@@ -208,6 +209,7 @@ export default function Home() {
         body: JSON.stringify({
           name,
           email,
+          phone,
           budget,
           details: `${details}\n\n[Project Details & Features]: ${systemConstraints}`
         })
@@ -218,6 +220,7 @@ export default function Home() {
         // Reset fields
         setName("");
         setEmail("");
+        setPhone("");
         setDetails("");
         setSystemConstraints("");
       } else {
@@ -840,8 +843,8 @@ export default function Home() {
               ) : (
                 <form onSubmit={handleIntakeSubmit} className="flex flex-col gap-6 justify-between h-full w-full">
                   <div className="flex flex-col gap-5">
-                    {/* Name & Email */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Name, Email & Phone */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div className="flex flex-col gap-1.5">
                         <label htmlFor="client-name" className="text-[10px] font-bold text-[#6E6E73] uppercase tracking-widest">
                           Name / Entity
@@ -849,7 +852,7 @@ export default function Home() {
                         <input
                           id="client-name"
                           type="text"
-                          placeholder="e.g., John Doe / Tech Director"
+                          placeholder="e.g., John Doe"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
@@ -867,6 +870,21 @@ export default function Home() {
                           placeholder="you@company.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
+                          required
+                          className="bg-[#FBFBFD] hover:bg-black/2 border border-[#E8E8ED] p-3 text-sm md:text-[15px] focus:bg-white focus:outline-none focus:ring-1 focus:ring-black/20 transition-all font-mono text-black"
+                        />
+                      </div>
+
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="client-phone" className="text-[10px] font-bold text-[#6E6E73] uppercase tracking-widest">
+                          Phone Coordinates
+                        </label>
+                        <input
+                          id="client-phone"
+                          type="tel"
+                          placeholder="WhatsApp / Phone"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
                           required
                           className="bg-[#FBFBFD] hover:bg-black/2 border border-[#E8E8ED] p-3 text-sm md:text-[15px] focus:bg-white focus:outline-none focus:ring-1 focus:ring-black/20 transition-all font-mono text-black"
                         />

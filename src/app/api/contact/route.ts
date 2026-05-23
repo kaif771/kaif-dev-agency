@@ -9,11 +9,11 @@ const resend = process.env.RESEND_API_KEY
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, budget, details } = body;
+    const { name, email, phone, budget, details } = body;
 
-    if (!name || !email || !details) {
+    if (!name || !email || !phone || !details) {
       return NextResponse.json(
-        { error: "Missing required fields: name, email, details" },
+        { error: "Missing required fields: name, email, phone, details" },
         { status: 400 }
       );
     }
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
     const submission = {
       name,
       email,
+      phone: phone || "Not Provided",
       budget: Number(budget) || 100,
       details,
       createdAt: new Date(),
@@ -64,6 +65,10 @@ export async function POST(request: Request) {
                 <tr>
                   <td style="padding: 8px 0; color: #6e6e73; font-size: 14px; width: 120px;"><strong>Client Name:</strong></td>
                   <td style="padding: 8px 0; color: #1d1d1f; font-size: 15px;">${name}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #6e6e73; font-size: 14px;"><strong>Client Phone:</strong></td>
+                  <td style="padding: 8px 0; color: #1d1d1f; font-size: 15px; font-weight: bold;">${phone || "Not Provided"}</td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 0; color: #6e6e73; font-size: 14px;"><strong>Client Email:</strong></td>
