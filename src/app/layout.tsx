@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import GridBackground from "@/components/GridBackground";
-import AiChatWidget from "@/components/AiChatWidget";
-import SmoothScroll from "@/components/motion/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,27 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kaif Dev Agency | High-Performance Web Apps & AI Solutions",
-  description: "Full-stack MERN & Next.js production code delivered by a lean, rapid-execution dev team. Specializing in high-performance web systems and custom AI integrations.",
-  keywords: ["MERN Stack", "Next.js", "AI Integrations", "Custom RAG", "TypeScript", "React developer", "Kaif Dev Agency"],
-  authors: [{ name: "Kaif" }],
+  title: "Kaif | Premium Product Engineering Studio",
+  description: "A full-stack systems studio for modern web + AI. Leaning engineering, robust logic, exceptional polish.",
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon-32.png", type: "image/png", sizes: "32x32" },
-      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
-      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
-    ],
-    apple: [
-      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
-    ],
+    icon: "/favicon-rounded.png",
+    apple: "/apple-icon.png",
   },
-  manifest: "/site.webmanifest",
-  openGraph: {
-    title: "Kaif Dev Agency | High-Performance Web Apps & AI Solutions",
-    description: "Full-stack MERN & Next.js production code delivered by a lean, rapid-execution dev team.",
-    type: "website",
-  }
 };
 
 export default function RootLayout({
@@ -47,17 +29,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="relative min-h-screen bg-cyber-bg text-cyber-text antialiased overflow-x-hidden">
-        {/* Dynamic Glowing Cyberpunk Background */}
-        <GridBackground />
-
-        {/* Main Content Viewport */}
-        <SmoothScroll>{children}</SmoothScroll>
-
-        {/* Custom Wow-Factor AI Assistant */}
-        <AiChatWidget />
+      <body className="min-h-full flex flex-col bg-[#f4f3f0] text-[#1d1d1f]">
+        {children}
       </body>
     </html>
   );

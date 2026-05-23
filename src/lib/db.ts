@@ -1,44 +1,34 @@
-import mongoose from "mongoose";
+import { MongoClient } from "mongodb";
 
-type MongooseCache = {
-  conn: typeof mongoose | null;
-  promise: Promise<typeof mongoose> | null;
-};
+const uri = process.env.MONGODB_URI;
+let client: MongoClient | null = null;
+let clientPromise: Promise<MongoClient> | null = null;
 
-const globalWithMongoose = globalThis as typeof globalThis & {
-  mongoose?: MongooseCache;
-};
-
-if (!globalWithMongoose.mongoose) {
-  globalWithMongoose.mongoose = { conn: null, promise: null };
+if (!uri || uri.includes("xxxx.mongodb.net")) {
+  console.warn("MONGODB_URI is using a placeholder. Cloud database connections will be bypassed to prevent timeouts.");
 }
-const cached = globalWithMongoose.mongoose;
 
 export async function connectToDatabase() {
-  const mongoUri = process.env.MONGODB_URI;
-
-  if (!mongoUri) {
-    throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
+  if (!uri || uri.includes("xxxx.mongodb.net")) {
+    throw new Error("MONGODB_URI is undefined or using a placeholder. Bypassing database call to prevent server timeouts.");
   }
 
-  if (cached.conn) {
-    return cached.conn;
+  if (client && clientPromise) {
+    return client;
   }
 
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    cached.promise = mongoose.connect(mongoUri, opts);
-  }
-  
   try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
+    // Configure a highly optimized 5-second fail-fast timeout limit
+    client = new MongoClient(uri, {
+      connectTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 5000,
+    });
+    clientPromise = client.connect();
+    await clientPromise;
+    console.log("Connected successfully to MongoDB Atlas.");
+    return client;
+  } catch (error) {
+    console.error("Failed to connect to MongoDB:", error);
+    throw error;
   }
-
-  return cached.conn;
 }
