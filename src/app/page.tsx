@@ -158,26 +158,25 @@ export default function Home() {
     setChatLoading(true);
 
     try {
-      const res = await fetch("/api/ai-scope", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ details: userMessage, budget }),
+        body: JSON.stringify({ message: userMessage }),
       });
       const data = await res.json();
       
-      if (data.success) {
+      if (res.ok && data.text) {
         setChatMessages((prev) => [
           ...prev,
           {
             sender: "system",
-            text: data.summary || `Architect Analysis Complete. I've computed an engineering blueprint based on your query:`,
-            estimation: data
+            text: data.text
           }
         ]);
       } else {
         setChatMessages((prev) => [
           ...prev,
-          { sender: "system", text: `I encountered an issue analyzing the project: ${data.error || "Please try again."}` }
+          { sender: "system", text: `I encountered an issue compiling a response: ${data.error || "Please try again."}` }
         ]);
       }
     } catch (err) {
