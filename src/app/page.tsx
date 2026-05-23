@@ -240,7 +240,6 @@ export default function Home() {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <a href="#" className="flex items-center gap-1.5 group">
             <span className="text-lg sm:text-xl font-bold tracking-tight text-[#1D1D1F]">Kaif Dev Agency</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-[#1D1D1F]"></span>
           </a>
 
           {/* Minimalist text navigation links */}
