@@ -30,7 +30,7 @@ export default function Home() {
   // IDE State
   const [selectedFile, setSelectedFile] = useState("nodes.tsx");
   const [consoleOutput, setConsoleOutput] = useState("SYSTEM READY: Listening on port 5000...");
-  
+
   // Side Sheet Panel Drawer state
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -164,7 +164,7 @@ export default function Home() {
         body: JSON.stringify({ message: userMessage }),
       });
       const data = await res.json();
-      
+
       if (res.ok && data.text) {
         setChatMessages((prev) => [
           ...prev,
@@ -234,7 +234,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#FBFBFD] text-[#1D1D1F] flex flex-col font-sans selection:bg-[#1D1D1F] selection:text-white relative">
-      
+
       {/* 1. Unified Header Navigation */}
       <header className="sticky top-0 z-40 bg-[#FBFBFD]/80 backdrop-blur-md border-b border-[#E8E8ED] px-4 sm:px-8 lg:px-16 py-4 md:py-5">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
@@ -335,23 +335,26 @@ export default function Home() {
 
       {/* Centered Main Layout Container */}
       <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-8 lg:px-16 w-full flex flex-col">
-        
+
         {/* 2. Product-First Hero Section */}
         <section className="text-center py-16 md:py-24 lg:py-32 flex flex-col items-center gap-6 md:gap-8 animate-fade-in">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.05] text-[#1D1D1F]">
             Premium Product Engineering.
           </h1>
-          
+
           <p className="text-lg md:text-xl font-normal text-[#6E6E73] max-w-2xl mx-auto leading-relaxed">
             A full-stack systems studio for modern web + AI. We eliminate codebase bloat to deliver blazing-fast, secure, and production-ready digital products. From custom LLM integrations to robust database design, we write the code that powers modern business.
           </p>
 
           <div className="pt-2">
             <a
-              href="#intake"
-              className="inline-flex items-center gap-2 bg-[#1D1D1F] text-white font-bold text-xs uppercase tracking-widest px-8 py-4.5 rounded-full hover:bg-[#1D1D1F]/90 transition-all shadow-sm"
+              href="https://k-studio-dev.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#1D1D1F] text-white font-bold text-xs uppercase tracking-widest px-8 py-4.5 rounded-full hover:bg-[#1D1D1F]/90 transition-all shadow-sm transform hover:scale-105 active:scale-95 duration-200"
             >
               Launch Studio Editor ⚡
+              <ArrowUpRight className="h-3.5 w-3.5 ml-0.5" />
             </a>
           </div>
 
@@ -385,11 +388,10 @@ export default function Home() {
                     <button
                       key={filename}
                       onClick={() => setSelectedFile(filename)}
-                      className={`flex items-center gap-2 px-2 py-1.5 rounded text-left text-xs font-mono transition-colors ${
-                        selectedFile === filename
+                      className={`flex items-center gap-2 px-2 py-1.5 rounded text-left text-xs font-mono transition-colors ${selectedFile === filename
                           ? "bg-black/5 font-semibold text-[#1D1D1F]"
                           : "text-[#6E6E73] hover:bg-black/2"
-                      }`}
+                        }`}
                     >
                       <FileText className="h-3.5 w-3.5 opacity-55" />
                       <span className="truncate">{filename}</span>
@@ -402,7 +404,7 @@ export default function Home() {
               <div className="flex-1 flex flex-col bg-white overflow-hidden">
                 <div className="bg-[#FBFBFD]/40 border-b border-[#E8E8ED] px-5 py-2.5 flex items-center justify-between text-[10px] text-[#6E6E73] font-mono">
                   <span>src/components/{files[selectedFile].name}</span>
-                  
+
                   {/* File switcher dropdown visible only on mobile screens */}
                   <div className="sm:hidden relative">
                     <select
@@ -558,7 +560,7 @@ export default function Home() {
               <div key={node.label} className={`flex-1 flex flex-col gap-2 items-start relative w-full ${index === 3 ? "border-l-2 border-transparent pb-0" : "border-l-2 border-[#E8E8ED] pb-8"} md:border-l-0 pl-6 md:pl-0 md:pb-0`}>
                 {/* Visual step bullet dot on mobile timeline */}
                 <div className="md:hidden absolute -left-[7px] top-[4px] h-3 w-3 rounded-full bg-[#1D1D1F] border-2 border-white"></div>
-                
+
                 {/* Visual step bullet dot on desktop timeline */}
                 <div className="hidden md:flex items-center justify-start mb-4 relative z-10">
                   <div className="h-5 w-5 rounded-full bg-white border-2 border-[#1D1D1F] flex items-center justify-center transition-transform duration-300 hover:scale-125 cursor-pointer shadow-sm">
@@ -595,11 +597,10 @@ export default function Home() {
                   setActiveWorkTab("editor");
                   setActiveWorkImageIndex(0);
                 }}
-                className={`px-5 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 flex-1 text-center ${
-                  activeWorkTab === "editor"
+                className={`px-5 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 flex-1 text-center ${activeWorkTab === "editor"
                     ? "bg-white text-[#1D1D1F] shadow-xs"
                     : "text-[#6E6E73] hover:text-[#1D1D1F]"
-                }`}
+                  }`}
               >
                 AI Code Editor
               </button>
@@ -608,11 +609,10 @@ export default function Home() {
                   setActiveWorkTab("farming");
                   setActiveWorkImageIndex(0);
                 }}
-                className={`px-5 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 flex-1 text-center ${
-                  activeWorkTab === "farming"
+                className={`px-5 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 flex-1 text-center ${activeWorkTab === "farming"
                     ? "bg-white text-[#1D1D1F] shadow-xs"
                     : "text-[#6E6E73] hover:text-[#1D1D1F]"
-                }`}
+                  }`}
               >
                 Smart Farming
               </button>
@@ -621,7 +621,7 @@ export default function Home() {
 
           {/* Dynamic Project Details & Screenshot showcases using public folder assets */}
           <div className="mt-4 flex flex-col gap-8 w-full bg-transparent border-0 p-0">
-            
+
             {activeWorkTab === "farming" && (
               <div className="flex flex-col items-center text-center w-full">
                 {/* Product details top centered */}
@@ -642,7 +642,7 @@ export default function Home() {
                   <p className="text-sm md:text-[15px] font-normal text-[#6E6E73] leading-relaxed max-w-2xl">
                     A high-performance time-series dashboard for microclimate and automated irrigation management. Built with optimized aggregation pipelines to handle heavy sensor write metrics alongside seamless read latency.
                   </p>
-                  
+
                   <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-mono font-bold text-[#8E8E93] uppercase mt-4">
                     <span>FastAPI</span>
                     <span className="text-[#E8E8ED] font-sans font-normal">|</span>
@@ -689,19 +689,17 @@ export default function Home() {
                     >
                       →
                     </button>
-                    
+
                     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                       <button
                         onClick={() => setActiveWorkImageIndex(0)}
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          activeWorkImageIndex === 0 ? "bg-white" : "bg-white/40"
-                        }`}
+                        className={`h-1.5 w-1.5 rounded-full ${activeWorkImageIndex === 0 ? "bg-white" : "bg-white/40"
+                          }`}
                       />
                       <button
                         onClick={() => setActiveWorkImageIndex(1)}
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          activeWorkImageIndex === 1 ? "bg-white" : "bg-white/40"
-                        }`}
+                        className={`h-1.5 w-1.5 rounded-full ${activeWorkImageIndex === 1 ? "bg-white" : "bg-white/40"
+                          }`}
                       />
                     </div>
                   </div>
@@ -729,7 +727,7 @@ export default function Home() {
                   <p className="text-sm md:text-[15px] font-normal text-[#6E6E73] leading-relaxed max-w-2xl">
                     A secure browser-based code editing platform featuring isolated iframe script execution, context-aware AI refactoring prompt streams, and an instantaneous postMessage state bridge.
                   </p>
-                  
+
                   <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-mono font-bold text-[#8E8E93] uppercase mt-4">
                     <span>Next.js 16</span>
                     <span className="text-[#E8E8ED] font-sans font-normal">|</span>
@@ -752,7 +750,7 @@ export default function Home() {
                       alt="AI Code Editor Sandbox Mockup"
                       className="w-full h-full object-contain"
                     />
-                    
+
                     {/* Absolute arrow overlays inside image container frame */}
                     <button
                       onClick={(e) => {
@@ -776,20 +774,18 @@ export default function Home() {
                     >
                       →
                     </button>
-                    
+
                     {/* Double-screenshot pagination subdots */}
                     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                       <button
                         onClick={() => setActiveWorkImageIndex(0)}
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          activeWorkImageIndex === 0 ? "bg-white" : "bg-white/40"
-                        }`}
+                        className={`h-1.5 w-1.5 rounded-full ${activeWorkImageIndex === 0 ? "bg-white" : "bg-white/40"
+                          }`}
                       />
                       <button
                         onClick={() => setActiveWorkImageIndex(1)}
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          activeWorkImageIndex === 1 ? "bg-white" : "bg-white/40"
-                        }`}
+                        className={`h-1.5 w-1.5 rounded-full ${activeWorkImageIndex === 1 ? "bg-white" : "bg-white/40"
+                          }`}
                       />
                     </div>
                   </div>
@@ -819,7 +815,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-stretch mt-4">
-            
+
             {/* Elegant Form Left Column */}
             <div className="md:col-span-7 min-h-[520px] flex flex-col justify-between p-6 sm:p-8 bg-white border border-[#E8E8ED] rounded-lg">
               {formSuccess ? (
@@ -857,7 +853,7 @@ export default function Home() {
                           className="bg-[#FBFBFD] hover:bg-black/2 border border-[#E8E8ED] p-3 text-sm md:text-[15px] focus:bg-white focus:outline-none focus:ring-1 focus:ring-black/20 transition-all font-mono text-black"
                         />
                       </div>
- 
+
                       <div className="flex flex-col gap-1.5">
                         <label htmlFor="client-email" className="text-[10px] font-bold text-[#6E6E73] uppercase tracking-widest">
                           Email Coordinates
@@ -888,7 +884,7 @@ export default function Home() {
                         />
                       </div>
                     </div>
- 
+
                     {/* Dynamic Range Budget Slider */}
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center justify-between">
@@ -947,7 +943,7 @@ export default function Home() {
                       ></textarea>
                     </div>
                   </div>
- 
+
                   {/* Action row */}
                   <div className="flex flex-col gap-3 mt-4">
                     {formError && (
@@ -971,7 +967,7 @@ export default function Home() {
                 </form>
               )}
             </div>
- 
+
             {/* Reactive AI Scope Estimator Panel Right Column */}
             <div className="md:col-span-5 min-h-[520px] flex flex-col justify-between p-6 sm:p-8 bg-white border border-[#E8E8ED] rounded-lg">
               <div className="flex flex-col gap-5">
@@ -1064,9 +1060,8 @@ export default function Home() {
 
       {/* 8. Zero-Rounded Corner Side Sheet Panel Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[480px] bg-white border-l border-[#1D1D1F] z-50 flex flex-col shadow-2xl drawer-transition rounded-none ${
-          isDrawerOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
-        }`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[480px] bg-white border-l border-[#1D1D1F] z-50 flex flex-col shadow-2xl drawer-transition rounded-none ${isDrawerOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
+          }`}
       >
         {/* Drawer header */}
         <div className="px-6 py-5 border-b border-[#E8E8ED] flex items-center justify-between bg-[#FBFBFD]">
@@ -1089,19 +1084,17 @@ export default function Home() {
           {chatMessages.map((msg, index) => (
             <div
               key={index}
-              className={`flex flex-col max-w-[85%] ${
-                msg.sender === "user" ? "self-end items-end" : "self-start items-start"
-              }`}
+              className={`flex flex-col max-w-[85%] ${msg.sender === "user" ? "self-end items-end" : "self-start items-start"
+                }`}
             >
               <div
-                className={`p-4 text-xs leading-relaxed font-normal rounded-2xl ${
-                  msg.sender === "user"
+                className={`p-4 text-xs leading-relaxed font-normal rounded-2xl ${msg.sender === "user"
                     ? "bg-[#1D1D1F] text-white font-medium rounded-tr-none"
                     : "bg-white border border-[#E8E8ED] text-[#1D1D1F] shadow-xs rounded-tl-none"
-                }`}
+                  }`}
               >
                 <p className="whitespace-pre-line">{msg.text}</p>
-                
+
                 {/* Dynamic scopes estimated in side chat bubble */}
                 {msg.estimation && msg.estimation.estimatedHours > 0 && (
                   <div className="mt-4 border-t border-[#E8E8ED] pt-4 flex flex-col gap-4 text-[#1D1D1F]">
@@ -1194,7 +1187,7 @@ export default function Home() {
             <div className="flex items-center justify-between text-[9px] font-mono text-[#6E6E73] font-bold uppercase tracking-widest mb-2">
               <span>Lock Project Order</span>
             </div>
-            
+
             <a
               href="#intake"
               onClick={() => setIsDrawerOpen(false)}

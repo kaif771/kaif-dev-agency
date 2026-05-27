@@ -1,0 +1,8 @@
+{
+  "workbench.iconTheme": "vs-seti",
+  "editor.fontSize": 13,
+  "editor.fontFamily": "JetBrains Mono, SF Mono, monospace",
+  "editor.smoothScrolling": true,
+  "editor.cursorBlinking": "smooth",
+  "terminal.integrated.fontSize": 12
+}
