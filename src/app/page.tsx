@@ -715,7 +715,7 @@ export default function Home() {
                     SAAS DEVELOPER TOOL • SANDBOX EXECUTION
                   </span>
                   <a
-                    href="https://https://k-studio-dev.vercel.app/"
+                    href="https://k-studio-dev.vercel.app"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group"
@@ -739,7 +739,7 @@ export default function Home() {
 
                 {/* Centered screen mockup container (uncropped, natural sizing) */}
                 <a
-                  href="https://https://k-studio-dev.vercel.app/"
+                  href="https://k-studio-dev.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden bg-white shadow-[0_24px_50px_rgba(0,0,0,0.08)] border border-[#E8E8ED] transition-transform duration-500 hover:scale-[1.005] block"
